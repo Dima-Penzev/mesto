@@ -1,0 +1,13 @@
+.user__add-card {
+  display: block;
+  margin: 0 auto;
+  margin-top: 36px;
+  width: 282px;
+  min-height: 50px;
+  border: 2px solid #FFFFFF;
+  border-radius: 2px;
+  background: transparent;
+  background-image: url(../../../images/cross.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+}

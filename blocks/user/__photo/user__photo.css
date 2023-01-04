@@ -1,0 +1,6 @@
+.user__photo {
+  display: block;
+  max-width: 120px;
+  border-radius: 50%;
+  margin: 38px auto 0;
+}
