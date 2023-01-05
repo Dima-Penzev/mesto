@@ -8,10 +8,13 @@
 
 @import url(../blocks/profile/profile.css);
 
+@import url(../blocks/user/user.css);
 @import url(../blocks/user/__photo/user__photo.css);
 @import url(../blocks/user/__name/user__name.css);
 @import url(../blocks/user/__activitie/user__activitie.css);
 @import url(../blocks/user/__edit/user__edit.css);
+@import url(../blocks/fading/fading.css);
 @import url(../blocks/user/__edit-wrap/user__edit-wrap.css);
 @import url(../blocks/user/__edit-image/user__edit-image.css);
 @import url(../blocks/user/__add-card/user__add-card.css);
+@import url(../blocks/user/__add-image/user__add-image.css);

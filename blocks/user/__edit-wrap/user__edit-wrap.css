@@ -1,3 +1,13 @@
 .user__edit-wrap {
-  
+  max-width: max-content;
+  margin-top: 23px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+
+@media screen and (min-width: 1000px) {
+  .user__edit-wrap {
+    margin: 0;
+  }
 }

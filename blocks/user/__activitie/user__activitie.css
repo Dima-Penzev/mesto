@@ -1,9 +1,19 @@
 .user__activitie {
-  margin: 0;
-  margin-top: 14px;
+  margin: 14px auto 0;
+  max-width: 230px;
   font-weight: 400;
   font-size: 14px;
   line-height: 1.22;
   text-align: center;
   color: #FFFFFF;
+}
+
+@media screen and (min-width: 1000px) {
+  .user__activitie {
+    margin: 0;
+    max-width: 300px;
+    margin-top: 16px;
+    text-align: left;
+    font-size: 18px;
+  }
 }

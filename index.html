@@ -10,22 +10,25 @@
 <body>
   <div class="root">
     <header class="header content">
-      <a href="#">
+      <a class="fading" href="#">
         <img class="header__logo" src="./images/header-logo.svg" alt="Логотип-надпись место Россия">
       </a>
     </header>
     <main>
       <section class="profile content">
         <div class="user">
-          <img class="user__photo" src="./images/kusto.jpg" alt="Фото человека, имя и род деятельности описаны ниже">
-          <div class="user__edit-wrap">
-            <p class="user__name">Жак-Ив Кусто</p>
-            <button class="user__edit" type="button">
-              <img class="user__edit-image" src="./images/edit-button.svg" alt="логотип кнопки для редактирования профиля">
-            </button>
+          <img class="user__photo" src="./images/kusto.jpg" alt="Фото пользователя">
+          <div>
+            <div class="user__edit-wrap">
+              <p class="user__name">Жак-Ив Кусто</p>
+              <button class="user__edit fading" type="button">
+                <img class="user__edit-image" src="./images/edit-button.svg" alt="логотип кнопки для редактирования профиля">
+              </button>
+            </div>
+            <p class="user__activitie">Исследователь океана</p>
           </div>
-          <p class="user__activitie">Исследователь океана</p>
-          <button class="user__add-card" type="button">
+          <button class="user__add-card fading" type="button">
+            <img class="user__add-image" src="./images/cross.svg" alt="Логотип крестик">
           </button>
         </div>
         <ul class="cards">
