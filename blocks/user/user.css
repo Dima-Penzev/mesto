@@ -1,6 +1,7 @@
 .user {
   max-width: 880px;
   padding-top: 38px;
+  padding-bottom: 36px;
 }
 
 @media screen and (min-width: 1000px) {

@@ -18,3 +18,12 @@
 @import url(../blocks/user/__edit-image/user__edit-image.css);
 @import url(../blocks/user/__add-card/user__add-card.css);
 @import url(../blocks/user/__add-image/user__add-image.css);
+
+@import url(../blocks/cards/cards.css);
+@import url(../blocks/cards/__item/cards__item.css);
+@import url(../blocks/cards/__image/cards__image.css);
+@import url(../blocks/cards/__wrap/cards__wrap.css);
+@import url(../blocks/cards/__text/cards__text.css);
+@import url(../blocks/cards/__like-btn/cards__like-btn.css);
+@import url(../blocks/cards/__like-btn/_hover/cards__like-btn_hover.css);
+@import url(../blocks/cards/__like-btn/_active/cards__like-btn_active.css);

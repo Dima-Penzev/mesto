@@ -1,0 +1,11 @@
+.cards__like-btn {
+  display: inline-block;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  height: 19px;
+  width: 22px;
+  background-image: url(../../../images/heart.svg);
+  background-position: center;
+  border: none;
+}

@@ -1,0 +1,9 @@
+.cards__wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 25px 15px 25px 21px;
+  background-color: #ffffff;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
