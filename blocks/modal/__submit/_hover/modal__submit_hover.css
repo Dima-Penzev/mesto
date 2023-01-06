@@ -1,0 +1,7 @@
+.modal__submit_hover {
+  transition: opacity 250ms ease-in;
+}
+
+.modal__submit_hover:hover {
+  opacity: .8;
+}

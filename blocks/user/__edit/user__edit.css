@@ -8,6 +8,7 @@
   right: -28px;
   top: 50%;
   transform: translateY(-50%);
+  cursor: pointer;
 }
 
 @media screen and (min-width: 1000px) {

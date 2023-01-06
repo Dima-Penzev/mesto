@@ -7,6 +7,7 @@
   border: 2px solid #FFFFFF;
   border-radius: 2px;
   background: transparent;
+  cursor: pointer;
 }
 
 @media screen and (min-width: 1000px) {

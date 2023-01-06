@@ -1,6 +1,7 @@
 .modal__submit {
   width: 100%;
   min-height: 46px;
+  margin-top: 45px;
   background-color: #000000;
   border: none;
   border-radius: 2px;
@@ -9,4 +10,13 @@
   line-height: 1.21;
   text-align: center;
   color: #FFFFFF;
+  cursor: pointer;
+}
+
+@media screen and (min-width: 1000px) {
+  .modal__submit {
+    margin-top: 48px;
+    min-height: 50px;
+    font-size: 18px;
+  }
 }
