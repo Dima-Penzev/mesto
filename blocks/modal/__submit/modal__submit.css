@@ -1,0 +1,12 @@
+.modal__submit {
+  width: 100%;
+  min-height: 46px;
+  background-color: #000000;
+  border: none;
+  border-radius: 2px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.21;
+  text-align: center;
+  color: #FFFFFF;
+}
