@@ -1,4 +1,4 @@
-.user__activitie {
+.user__activity {
   margin: 14px auto 0;
   max-width: 230px;
   font-weight: 400;
@@ -9,9 +9,9 @@
 }
 
 @media screen and (min-width: 1000px) {
-  .user__activitie {
+  .user__activity {
     margin: 0;
-    max-width: 300px;
+    max-width: 350px;
     margin-top: 16px;
     text-align: left;
     font-size: 18px;

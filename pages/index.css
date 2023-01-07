@@ -6,12 +6,10 @@
 @import url(../blocks/header/__logo/header__logo.css);
 @import url(../blocks/content/content.css);
 
-@import url(../blocks/profile/profile.css);
-
 @import url(../blocks/user/user.css);
 @import url(../blocks/user/__photo/user__photo.css);
 @import url(../blocks/user/__name/user__name.css);
-@import url(../blocks/user/__activitie/user__activitie.css);
+@import url(../blocks/user/__activity/user__activity.css);
 @import url(../blocks/user/__edit/user__edit.css);
 @import url(../blocks/fading/fading.css);
 @import url(../blocks/user/__edit-wrap/user__edit-wrap.css);
