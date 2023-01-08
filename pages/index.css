@@ -6,6 +6,7 @@
 @import url(../blocks/header/__logo/header__logo.css);
 @import url(../blocks/content/content.css);
 
+@import url(../blocks/profile/profile.css);
 @import url(../blocks/user/user.css);
 @import url(../blocks/user/__photo/user__photo.css);
 @import url(../blocks/user/__name/user__name.css);
@@ -38,4 +39,4 @@
 @import url(../blocks/modal/__input/modal__input.css);
 @import url(../blocks/modal/__submit/modal__submit.css);
 @import url(../blocks/modal/__submit/_hover/modal__submit_hover.css);
-@import url(../blocks/modal/_open/modal_open_true.css);
+@import url(../blocks/modal/_opened/modal_opened.css);
