@@ -11,7 +11,7 @@ inputName.value = userName.textContent;
 inputActivity.value = userActivity.textContent;
 
 const toggleModal = () => {
-  popUp.classList.toggle('modal_open_true');
+  popUp.classList.toggle('modal_opened');
 }
 
 editBtn.addEventListener('click', toggleModal);
