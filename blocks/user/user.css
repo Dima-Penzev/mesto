@@ -6,9 +6,14 @@
 
 @media screen and (min-width: 1000px) {
   .user {
-    display: flex;
-    align-items: center;
     padding-top: 40px;
     padding-bottom: 51px;
+    display: grid;
+    grid-template-columns: auto auto 1fr auto;
+    /* grid-template-rows: repeat(2, max-content); */
+    align-items: center;
+    grid-template-areas: 
+    "photo title . add"
+    "photo activity . add";
   }
 }

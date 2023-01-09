@@ -1,6 +1,6 @@
 .user__name {
-  display: inline-block;
   margin: 0;
+  grid-area: name;
   max-width: 230px;
   font-weight: 500;
   font-size: 27px;
