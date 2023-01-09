@@ -32,7 +32,7 @@
 @import url(../blocks/modal/modal.css);
 @import url(../blocks/modal/__container/modal__container.css);
 @import url(../blocks/modal/__close/modal__close.css);
-@import url(../blocks/modal/__close-image/modal__close-image.css);
+/* @import url(../blocks/modal/__close-image/modal__close-image.css); */
 @import url(../blocks/modal/__title/modal__title.css);
 @import url(../blocks/modal/__input/modal__input.css);
 @import url(../blocks/modal/__submit/modal__submit.css);

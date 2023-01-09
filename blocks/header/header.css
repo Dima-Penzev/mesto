@@ -2,7 +2,7 @@
   box-sizing: border-box;
   max-width: 880px;
   padding: 28px 27px 31px;
-  border-bottom: 1px solid #545454;
+  border-bottom: 1px solid rgba(84, 84, 84, .7);
 }
 
 @media screen and (min-width: 1000px) {
