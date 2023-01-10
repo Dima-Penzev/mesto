@@ -1,7 +1,0 @@
-.popup__submit_hover {
-  transition: opacity 250ms ease-in;
-}
-
-.popup__submit_hover:hover {
-  opacity: .8;
-}

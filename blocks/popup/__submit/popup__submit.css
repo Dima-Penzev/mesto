@@ -11,6 +11,11 @@
   text-align: center;
   color: #FFFFFF;
   cursor: pointer;
+  transition: opacity 250ms ease-in;
+}
+
+.popup__submit:hover {
+  opacity: .8;
 }
 
 @media screen and (min-width: 1000px) {

@@ -8,4 +8,9 @@
   background-position: center;
   border: none;
   cursor: pointer;
+  transition: opacity 250ms ease-in;
+}
+
+.cards__like-btn:hover {
+  opacity: .5;
 }

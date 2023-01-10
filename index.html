@@ -9,14 +9,13 @@
 </head>
 <body>
   <div class="root">
-    <header class="header content">
+    <header class="header root__content">
       <a class="fading" href="#">
         <img class="header__logo" src="./images/header-logo.svg" alt="Логотип-надпись место Россия">
       </a>
     </header>
-    <main>
-      <section class="profile content">
-        <div class="user">
+    <main class="content root__content">
+        <section class="user">
           <img class="user__photo" src="./images/kusto.jpg" alt="Фото пользователя">
             <div class="user__edit-wrap">
               <h1 class="user__name">Жак-Ив Кусто</h1>
@@ -24,86 +23,75 @@
             </div>
             <p class="user__activity">Исследователь океана</p>
           <button class="user__add-card fading" type="button"></button>
-        </div>
-        <ul class="cards">
-          <li class="cards__item">
-            <div class="cards__image-wrap">
+        </section>
+        <section>
+          <ul class="cards">
+          <!-- <li class="cards__item">
               <img class="cards__image" src="./images/karachaevsk.jpg" alt="старый заброшенный храм на фоне гор">
-            </div>
             <div class="cards__wrap">
-              <p class="cards__text">Карачаевск</p>
-              <button class="cards__like-btn cards__like-btn_hover">
+              <h2 class="cards__text">Карачаевск</h2>
+              <button class="cards__like-btn" type="button">
               </button>
             </div>
-          </li>
+          </li> -->
           <li class="cards__item">
-            <div class="cards__image-wrap">
               <img class="cards__image" src="./images/dombai-road.jpg" alt="дорога к горам">
-            </div>
             <div class="cards__wrap">
-              <p class="cards__text">Домбай</p>
-              <button class="cards__like-btn cards__like-btn_hover">
+              <h2 class="cards__text">Домбай</h2>
+              <button class="cards__like-btn" type="button">
               </button>
             </div>
           </li>
-          <li class="cards__item">
-            <div class="cards__image-wrap">
+          <!-- <li class="cards__item">
               <img class="cards__image" src="./images/elbrus.jpg" alt="гора Эльбрус">
-            </div>
             <div class="cards__wrap">
-              <p class="cards__text">Гора Эльбрус</p>
-              <button class="cards__like-btn cards__like-btn_hover">
+              <h2 class="cards__text">Гора Эльбрус</h2>
+              <button class="cards__like-btn" type="button">
               </button>
             </div>
           </li>
           <li class="cards__item">
-            <div class="cards__image-wrap">
               <img class="cards__image" src="./images/mcheta-mtianeti.jpg" alt="изображение высокой заснеженной горы">
-            </div>
             <div class="cards__wrap">
-              <p class="cards__text">Мцхета-Мтианети</p>
-              <button class="cards__like-btn cards__like-btn_hover">
+              <h2 class="cards__text">Мцхета-Мтианети</h2>
+              <button class="cards__like-btn" type="button">
               </button>
             </div>
           </li>
           <li class="cards__item">
-            <div class="cards__image-wrap">
               <img class="cards__image" src="./images/arhiz.jpg" alt="изображение старинного храма на фоне горы">
-            </div>
             <div class="cards__wrap">
-              <p class="cards__text">Архыз</p>
-              <button class="cards__like-btn cards__like-btn_hover">
+              <h2 class="cards__text">Архыз</h2>
+              <button class="cards__like-btn" type="button">
               </button>
             </div>
           </li>
           <li class="cards__item">
-            <div class="cards__image-wrap">
               <img class="cards__image" src="./images/dombai.jpg" alt="изображение старинного храма на фоне горы">
-            </div>
             <div class="cards__wrap">
-              <p class="cards__text">Гора Домбай-Ульген</p>
-              <button class="cards__like-btn cards__like-btn_hover">
+              <h2 class="cards__text">Гора Домбай-Ульген</h2>
+              <button class="cards__like-btn" type="button">
               </button>
             </div>
-          </li>
-        </ul>
+          </li> -->
+          </ul>
       </section>
     </main>
-    <footer class="footer content">
+    <footer class="footer root__content">
       <p class="footer__text">&copy; 2023 Mesto Russia</p>
     </footer>
     <div class="popup">
       <div class="popup__container">
         <button class="popup__close fading" type="button"></button>
         <h2 class="popup__title">Редактировать профиль</h2>
-        <form id="form-profile">
+        <form id="form-profile" name="profile-data">
           <input class="popup__input" id="name" type="text" name="username" required>
           <input class="popup__input" id="activity" type="text" name="activity">
-          <button class="popup__submit popup__submit_hover" type="submit">Сохранить</button>
+          <button class="popup__submit" type="submit">Сохранить</button>
         </form>
       </div>
     </div>
   </div>
-  <script src="./scripts/index.js" type="module"></script>
+  <script src="./scripts/index.js"></script>
 </body>
 </html>
