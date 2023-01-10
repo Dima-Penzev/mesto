@@ -1,4 +1,4 @@
-.modal__submit {
+.popup__submit {
   width: 100%;
   min-height: 46px;
   margin-top: 45px;
@@ -14,7 +14,7 @@
 }
 
 @media screen and (min-width: 1000px) {
-  .modal__submit {
+  .popup__submit {
     margin-top: 48px;
     min-height: 50px;
     font-size: 18px;

@@ -1,4 +1,4 @@
-.modal__input {
+.popup__input {
   display: block;
   position: relative;
   box-sizing: border-box;
@@ -12,6 +12,6 @@
   line-height: 1.21;
 }
 
-.modal__input:required {
+.popup__input:required {
   margin-bottom: 30px;
 }

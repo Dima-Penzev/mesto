@@ -1,4 +1,4 @@
-.modal__container {
+.popup__container {
   position: relative;
   box-sizing: border-box;
   padding: 25px 22px;
@@ -10,7 +10,7 @@
 }
 
 @media screen and (min-width: 1000px) {
-  .modal__container {
+  .popup__container {
     min-height: 330px;
     width: 430px;
     padding: 34px 36px 37px;
