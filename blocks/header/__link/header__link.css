@@ -1,7 +1,7 @@
-.fading {
+.header__link {
   transition: opacity 250ms ease-in;
 }
 
-.fading:hover {
+.header__link:hover {
   opacity: .6;
 }

@@ -1,4 +1,4 @@
-.cards__like-btn {
+.card__like-btn {
   background: transparent;
   padding: 0;
   margin: 0;
@@ -11,6 +11,6 @@
   transition: opacity 250ms ease-in;
 }
 
-.cards__like-btn:hover {
+.card__like-btn:hover {
   opacity: .5;
 }

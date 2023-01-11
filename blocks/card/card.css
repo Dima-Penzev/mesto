@@ -1,6 +1,7 @@
-.cards__item {
+.card {
   max-width: 282px;
   border-radius: 10px;
-  background-color: #ffffff;
   overflow: hidden;
+  display: grid;
+  grid-template-rows: 282px auto;
 }

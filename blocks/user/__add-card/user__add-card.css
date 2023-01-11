@@ -12,6 +12,11 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: 16px 16px;
+  transition: opacity 250ms ease-in;
+}
+
+.user__add-card:hover {
+  opacity: .6;
 }
 
 @media screen and (min-width: 1000px) {

@@ -10,7 +10,7 @@
 <body>
   <div class="root">
     <header class="header root__content">
-      <a class="fading" href="#">
+      <a class="header__link" href="#">
         <img class="header__logo" src="./images/header-logo.svg" alt="Логотип-надпись место Россия">
       </a>
     </header>
@@ -19,61 +19,61 @@
           <img class="user__photo" src="./images/kusto.jpg" alt="Фото пользователя">
             <div class="user__edit-wrap">
               <h1 class="user__name">Жак-Ив Кусто</h1>
-              <button class="user__edit fading" type="button"></button>
+              <button class="user__edit fading" type="button" aria-label="редактировать"></button>
             </div>
             <p class="user__activity">Исследователь океана</p>
-          <button class="user__add-card fading" type="button"></button>
+          <button class="user__add-card" type="button" aria-label="добавить"></button>
         </section>
         <section>
-          <ul class="cards">
-          <!-- <li class="cards__item">
-              <img class="cards__image" src="./images/karachaevsk.jpg" alt="старый заброшенный храм на фоне гор">
-            <div class="cards__wrap">
-              <h2 class="cards__text">Карачаевск</h2>
-              <button class="cards__like-btn" type="button">
-              </button>
-            </div>
-          </li> -->
-          <li class="cards__item">
-              <img class="cards__image" src="./images/dombai-road.jpg" alt="дорога к горам">
-            <div class="cards__wrap">
-              <h2 class="cards__text">Домбай</h2>
-              <button class="cards__like-btn" type="button">
+          <ul class="cards-container">
+          <li class="card">
+              <img class="card__image" src="./images/karachaevsk.jpg" alt="старый заброшенный храм на фоне гор">
+            <div class="card__wrap">
+              <h2 class="card__text">Карачаевск</h2>
+              <button class="card__like-btn" type="button" aria-label="нравится">
               </button>
             </div>
           </li>
-          <!-- <li class="cards__item">
-              <img class="cards__image" src="./images/elbrus.jpg" alt="гора Эльбрус">
-            <div class="cards__wrap">
-              <h2 class="cards__text">Гора Эльбрус</h2>
-              <button class="cards__like-btn" type="button">
+          <li class="card">
+              <img class="card__image" src="./images/dombai-road.jpg" alt="дорога к горам">
+            <div class="card__wrap">
+              <h2 class="card__text">Домбай</h2>
+              <button class="card__like-btn" type="button" aria-label="нравится">
               </button>
             </div>
           </li>
-          <li class="cards__item">
-              <img class="cards__image" src="./images/mcheta-mtianeti.jpg" alt="изображение высокой заснеженной горы">
-            <div class="cards__wrap">
-              <h2 class="cards__text">Мцхета-Мтианети</h2>
-              <button class="cards__like-btn" type="button">
+          <li class="card">
+              <img class="card__image" src="./images/elbrus.jpg" alt="гора Эльбрус">
+            <div class="card__wrap">
+              <h2 class="card__text">Гора Эльбрус</h2>
+              <button class="card__like-btn" type="button" aria-label="нравится">
               </button>
             </div>
           </li>
-          <li class="cards__item">
-              <img class="cards__image" src="./images/arhiz.jpg" alt="изображение старинного храма на фоне горы">
-            <div class="cards__wrap">
-              <h2 class="cards__text">Архыз</h2>
-              <button class="cards__like-btn" type="button">
+          <li class="card">
+              <img class="card__image" src="./images/mcheta-mtianeti.jpg" alt="изображение высокой заснеженной горы">
+            <div class="card__wrap">
+              <h2 class="card__text">Мцхета-Мтианети</h2>
+              <button class="card__like-btn" type="button" aria-label="нравится">
               </button>
             </div>
           </li>
-          <li class="cards__item">
-              <img class="cards__image" src="./images/dombai.jpg" alt="изображение старинного храма на фоне горы">
-            <div class="cards__wrap">
-              <h2 class="cards__text">Гора Домбай-Ульген</h2>
-              <button class="cards__like-btn" type="button">
+          <li class="card">
+              <img class="card__image" src="./images/arhiz.jpg" alt="изображение старинного храма на фоне горы">
+            <div class="card__wrap">
+              <h2 class="card__text">Архыз</h2>
+              <button class="card__like-btn" type="button" aria-label="нравится">
               </button>
             </div>
-          </li> -->
+          </li>
+          <li class="card">
+              <img class="card__image" src="./images/dombai.jpg" alt="изображение старинного храма на фоне горы">
+            <div class="card__wrap">
+              <h2 class="card__text">Гора Домбай-Ульген</h2>
+              <button class="card__like-btn" type="button" aria-label="нравится">
+              </button>
+            </div>
+          </li>
           </ul>
       </section>
     </main>
@@ -82,7 +82,7 @@
     </footer>
     <div class="popup">
       <div class="popup__container">
-        <button class="popup__close fading" type="button"></button>
+        <button class="popup__close" type="button" aria-label="закрыть"></button>
         <h2 class="popup__title">Редактировать профиль</h2>
         <form id="form-profile" name="profile-data">
           <input class="popup__input" id="name" type="text" name="username" required>

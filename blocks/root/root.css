@@ -1,6 +1,6 @@
 .root {
   background-color: #000;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', 'Arial', sans-serif;
   font-style:  normal;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;

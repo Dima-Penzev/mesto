@@ -1,4 +1,4 @@
-const editBtn = document.querySelector('.user__edit');
+const editorBtn = document.querySelector('.user__edit');
 const userName = document.querySelector('.user__name');
 const userActivity = document.querySelector('.user__activity');
 const popUp = document.querySelector('.popup');
@@ -7,20 +7,26 @@ const formProfile = popUp.querySelector('#form-profile');
 const inputName = popUp.querySelector('#name');
 const inputActivity = popUp.querySelector('#activity');
 
-inputName.value = userName.textContent;
-inputActivity.value = userActivity.textContent;
-
-const togglePopUp = () => {
-  popUp.classList.toggle('popup_opened');
+// Функция открытия окна редактирования
+const openPopUp = () => {
+  inputName.value = userName.textContent;
+  inputActivity.value = userActivity.textContent;
+  popUp.classList.add('popup_opened');
 }
 
-editBtn.addEventListener('click', togglePopUp);
-closePopUpBtn.addEventListener('click', togglePopUp);
+// Функция закрытия окна редактирования
+const closePopUp = () => {
+  popUp.classList.remove('popup_opened');
+}
 
-formProfile.addEventListener('submit', (evt) => {
+// Функция изменения данных о пользователе
+const handleFormSubmit = (evt) => {
   evt.preventDefault();
-
   userName.textContent = inputName.value;
   userActivity.textContent = inputActivity.value;
-  togglePopUp();
-})
+  closePopUp();
+}
+
+editorBtn.addEventListener('click', openPopUp);
+closePopUpBtn.addEventListener('click', closePopUp);
+formProfile.addEventListener('submit', handleFormSubmit);
