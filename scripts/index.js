@@ -96,5 +96,9 @@ cardsContainer.addEventListener('click', (evt) => {
   if(evt.target.classList.contains('card__like-btn')) {
     evt.target.classList.toggle('card__like-btn_active');
   }
+
+  if(evt.target.classList.contains('card__delete')) {
+    evt.target.parentNode.remove();
+  }
 });
 closePopUpImageBtn.addEventListener('click', () => {closePopUp(popUpImage)});
