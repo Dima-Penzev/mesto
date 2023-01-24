@@ -25,62 +25,13 @@
           <button class="user__add-card" type="button" aria-label="добавить"></button>
         </section>
         <section>
-          <ul class="cards-container">
-          <li class="card">
-              <img class="card__image" src="./images/karachaevsk.jpg" alt="старый заброшенный храм на фоне гор">
-            <div class="card__wrap">
-              <h2 class="card__text">Карачаевск</h2>
-              <button class="card__like-btn" type="button" aria-label="нравится">
-              </button>
-            </div>
-          </li>
-          <li class="card">
-              <img class="card__image" src="./images/dombai-road.jpg" alt="дорога к горам">
-            <div class="card__wrap">
-              <h2 class="card__text">Домбай</h2>
-              <button class="card__like-btn" type="button" aria-label="нравится">
-              </button>
-            </div>
-          </li>
-          <li class="card">
-              <img class="card__image" src="./images/elbrus.jpg" alt="гора Эльбрус">
-            <div class="card__wrap">
-              <h2 class="card__text">Гора Эльбрус</h2>
-              <button class="card__like-btn" type="button" aria-label="нравится">
-              </button>
-            </div>
-          </li>
-          <li class="card">
-              <img class="card__image" src="./images/mcheta-mtianeti.jpg" alt="изображение высокой заснеженной горы">
-            <div class="card__wrap">
-              <h2 class="card__text">Мцхета-Мтианети</h2>
-              <button class="card__like-btn" type="button" aria-label="нравится">
-              </button>
-            </div>
-          </li>
-          <li class="card">
-              <img class="card__image" src="./images/arhiz.jpg" alt="изображение старинного храма на фоне горы">
-            <div class="card__wrap">
-              <h2 class="card__text">Архыз</h2>
-              <button class="card__like-btn" type="button" aria-label="нравится">
-              </button>
-            </div>
-          </li>
-          <li class="card">
-              <img class="card__image" src="./images/dombai.jpg" alt="изображение старинного храма на фоне горы">
-            <div class="card__wrap">
-              <h2 class="card__text">Гора Домбай-Ульген</h2>
-              <button class="card__like-btn" type="button" aria-label="нравится">
-              </button>
-            </div>
-          </li>
-          </ul>
+          <ul class="cards-container"></ul>
       </section>
     </main>
     <footer class="footer root__content">
       <p class="footer__text">&copy; 2023 Mesto Russia</p>
     </footer>
-    <div class="popup">
+    <div class="popup popup_type_profile">
       <div class="popup__container">
         <button class="popup__close" type="button" aria-label="закрыть"></button>
         <h2 class="popup__title">Редактировать профиль</h2>
@@ -91,7 +42,38 @@
         </form>
       </div>
     </div>
+    <div class="popup popup_type_card-editor">
+      <div class="popup__container">
+        <button class="popup__close" type="button" aria-label="закрыть"></button>
+        <h2 class="popup__title">Новое место</h2>
+        <form id="form-card-editor" name="card-data">
+          <input class="popup__input" id="card-title" type="text" name="card-title" placeholder="Название" required>
+          <input class="popup__input" id="card-link" type="text" name="card-link" placeholder="Ссылка на картинку">
+          <button class="popup__submit" type="submit">Создать</button>
+        </form>
+      </div>
+    </div>
+    <div class="popup popup_type_image">
+      <div class="popup__container popup__container_type_image">
+        <button class="popup__close" type="button" aria-label="закрыть"></button>
+        <figure class="module">
+          <img class="module__image" src="" alt="">
+          <figcaption class="module__caption"></figcaption>
+        </figure>
+      </div>
+    </div>
+    <template id="card">
+      <li class="card">
+        <button class="card__delete" type="button" aria-label="удалить"></button>
+        <img class="card__image" src="" alt="">
+      <div class="card__wrap">
+        <h2 class="card__text"></h2>
+        <button class="card__like-btn" type="button" aria-label="нравится">
+        </button>
+      </div>
+    </li>
+    </template>
   </div>
-  <script src="./scripts/index.js"></script>
+  <script src="./scripts/index.js" type="module"></script>
 </body>
 </html>
