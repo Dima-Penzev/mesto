@@ -1,22 +1,48 @@
-import { initialCards } from "./initial-cards.js";
 const editorBtn = document.querySelector('.user__edit');
 const userName = document.querySelector('.user__name');
 const userActivity = document.querySelector('.user__activity');
 const cardsContainer = document.querySelector('.cards-container');
 const addCardBtn = document.querySelector('.user__add-card');
 const popUpProfile = document.querySelector('.popup_type_profile');
-const closePopUpProfileBtn =popUpProfile.querySelector('.popup__close');
+const btnClosePopUpProfile =popUpProfile.querySelector('.popup__close');
 const formProfile = popUpProfile.querySelector('#form-profile');
 const inputName = popUpProfile.querySelector('#name');
 const inputActivity = popUpProfile.querySelector('#activity');
 const popUpCardEditor = document.querySelector('.popup_type_card-editor');
-const closePopUpCardEditorBtn =popUpCardEditor.querySelector('.popup__close');
+const btnClosePopUpCardEditor =popUpCardEditor.querySelector('.popup__close');
 const formCardEditor = popUpCardEditor.querySelector('#form-card-editor');
 const inputCardTitle = popUpCardEditor.querySelector('#card-title');
 const inputCardLink = popUpCardEditor.querySelector('#card-link');
 const popUpImage = document.querySelector('.popup_type_image');
-const closePopUpImageBtn = popUpImage.querySelector('.popup__close');
+const btnClosePopUpImage = popUpImage.querySelector('.popup__close');
 const cardTemplate = document.querySelector('#card').content;
+
+const initialCards = [
+  {
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+  },
+  {
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+  },
+  {
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+  },
+  {
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+  },
+  {
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+  },
+  {
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+  }
+];
 
 //Функция для создания начального набора карточек
 const makeInitialCardsSet = (images) => {
@@ -34,8 +60,8 @@ const makeInitialCardsSet = (images) => {
   return cardsSet;
 }
 
-const listCards = makeInitialCardsSet(initialCards);
-cardsContainer.append(...listCards);
+const cardsList = makeInitialCardsSet(initialCards);
+cardsContainer.append(...cardsList);
 
 // Функция открытия модального окна
 const openPopUp = (block) => {
@@ -80,13 +106,8 @@ const makeImageInPopUP = (evt) => {
     popUpImage.querySelector('.module__caption').textContent = `${evt.target.getAttribute('alt')}`;
 }
 
-editorBtn.addEventListener('click', () => {openPopUp(popUpProfile)});
-closePopUpProfileBtn.addEventListener('click', () => {closePopUp(popUpProfile)});
-addCardBtn.addEventListener('click', () => {openPopUp(popUpCardEditor)})
-closePopUpCardEditorBtn.addEventListener('click', () => {closePopUp(popUpCardEditor)});
-formProfile.addEventListener('submit', handleFormSubmit);
-formCardEditor.addEventListener('submit', addCardImage)
-cardsContainer.addEventListener('click', (evt) => {
+//Функция обрабатывания событий списка карточек
+const handleCardsList =(evt) => {
 
   if(evt.target.classList.contains('card__image')) {
     makeImageInPopUP(evt);
@@ -94,11 +115,23 @@ cardsContainer.addEventListener('click', (evt) => {
   }
 
   if(evt.target.classList.contains('card__like-btn')) {
-    evt.target.classList.toggle('card__like-btn_active');
+    if(!evt.target.classList.contains('card__like-btn_active')) {
+      evt.target.classList.add('card__like-btn_active')
+    } else {
+      evt.target.classList.remove('card__like-btn_active')
+    }
   }
 
   if(evt.target.classList.contains('card__delete')) {
     evt.target.parentNode.remove();
   }
-});
-closePopUpImageBtn.addEventListener('click', () => {closePopUp(popUpImage)});
+}
+
+editorBtn.addEventListener('click', () => {openPopUp(popUpProfile)});
+btnClosePopUpProfile.addEventListener('click', () => {closePopUp(popUpProfile)});
+addCardBtn.addEventListener('click', () => {openPopUp(popUpCardEditor)})
+btnClosePopUpCardEditor.addEventListener('click', () => {closePopUp(popUpCardEditor)});
+btnClosePopUpImage.addEventListener('click', () => {closePopUp(popUpImage)});
+formProfile.addEventListener('submit', handleFormSubmit);
+formCardEditor.addEventListener('submit', addCardImage)
+cardsContainer.addEventListener('click', handleCardsList);
