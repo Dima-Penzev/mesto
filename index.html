@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./pages/index.css">
+    <script defer src="./scripts/constants.js"></script>
+    <script defer src="./scripts/index.js"></script>
     <title>Место</title>
 </head>
 <body>
@@ -36,8 +38,8 @@
         <button class="popup__close" type="button" aria-label="закрыть"></button>
         <h2 class="popup__title">Редактировать профиль</h2>
         <form id="form-profile" name="profile-data">
-          <input class="popup__input" id="name" type="text" name="username" required>
-          <input class="popup__input" id="activity" type="text" name="activity">
+          <input class="popup__input" id="name" type="text" name="username" placeholder="Имя" required>
+          <input class="popup__input" id="activity" type="text" name="activity" placeholder="О себе">
           <button class="popup__submit" type="submit">Сохранить</button>
         </form>
       </div>
@@ -48,7 +50,7 @@
         <h2 class="popup__title">Новое место</h2>
         <form id="form-card-editor" name="card-data">
           <input class="popup__input" id="card-title" type="text" name="card-title" placeholder="Название" required>
-          <input class="popup__input" id="card-link" type="text" name="card-link" placeholder="Ссылка на картинку">
+          <input class="popup__input" id="card-link" type="url" name="card-link" placeholder="Ссылка на картинку">
           <button class="popup__submit" type="submit">Создать</button>
         </form>
       </div>
@@ -74,6 +76,5 @@
     </li>
     </template>
   </div>
-  <script src="./scripts/index.js"></script>
 </body>
 </html>

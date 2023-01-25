@@ -14,72 +14,40 @@ const formCardEditor = popUpCardEditor.querySelector('#form-card-editor');
 const inputCardTitle = popUpCardEditor.querySelector('#card-title');
 const inputCardLink = popUpCardEditor.querySelector('#card-link');
 const popUpImage = document.querySelector('.popup_type_image');
+const popUpImageElem = popUpImage.querySelector('.module__image');
+const popUpImageCaption = popUpImage.querySelector('.module__caption');
 const btnClosePopUpImage = popUpImage.querySelector('.popup__close');
 const cardTemplate = document.querySelector('#card').content;
 
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
+//Функция создания карточки с изображением и названием
+const createCard = imageData => {
+  const cardMarkup = cardTemplate.querySelector('.card').cloneNode(true);
+  const cardImage = cardMarkup.querySelector('.card__image');
+  cardImage.src = imageData.link;
+  cardImage.alt = imageData.name;
+  cardMarkup.querySelector('.card__text').textContent = imageData.name;
+
+  return cardMarkup;
+}
 
 //Функция для создания начального набора карточек
-const makeInitialCardsSet = (images) => {
-  const cardsSet = [];
-  
-  images.map(image => {
-    const cardMarkup = cardTemplate.querySelector('.card').cloneNode(true);
-    cardMarkup.querySelector('.card__image').src=`${image.link}`;
-    cardMarkup.querySelector('.card__image').alt=`${image.name}`;
-    cardMarkup.querySelector('.card__text').textContent=`${image.name}`;
-
-    cardsSet.push(cardMarkup);
-  })
-
-  return cardsSet;
-}
+const makeInitialCardsSet = images => images.map(createCard);
 
 const cardsList = makeInitialCardsSet(initialCards);
 cardsContainer.append(...cardsList);
 
 // Функция открытия модального окна
-const openPopUp = (block) => {
-  block.classList.add('popup_opened');
-  
-  if(block.classList.contains('popup_type_profile')) {
-    inputName.value = userName.textContent;
-    inputActivity.value = userActivity.textContent;
-  }
+const openPopUp = (popUp) => {
+  popUp.classList.add('popup_opened');
 }
 
 // Функция закрытия модального окна
-const closePopUp = (block) => {
-  block.classList.remove('popup_opened');
+const closePopUp = (popUp) => {
+  popUp.classList.remove('popup_opened');
 }
 
 // Функция изменения данных о пользователе
-const handleFormSubmit = (evt) => {
+const handleFormSubmitProfile = (evt) => {
   evt.preventDefault();
   userName.textContent = inputName.value;
   userActivity.textContent = inputActivity.value;
@@ -90,48 +58,48 @@ const handleFormSubmit = (evt) => {
 //Функция добавления карточки на страницу
 const addCardImage = (evt) => {
   evt.preventDefault();
-  const newCard = cardTemplate.querySelector('.card').cloneNode(true);
-  newCard.querySelector('.card__image').src=`${inputCardLink.value}`;
-  newCard.querySelector('.card__image').alt=`${inputCardTitle.value}`;
-  newCard.querySelector('.card__text').textContent=`${inputCardTitle.value}`;
+  const newCard = createCard({name: inputCardTitle.value, link: inputCardLink.value});
   cardsContainer.prepend(newCard);
   closePopUp(popUpCardEditor);
   formCardEditor.reset();
 }
 
 //Функция создания картинки с подписью в модальном окне
-const makeImageInPopUP = (evt) => {
-    popUpImage.querySelector('.module__image').src = `${evt.target.getAttribute('src')}`;
-    popUpImage.querySelector('.module__image').alt = `${evt.target.getAttribute('alt')}`;
-    popUpImage.querySelector('.module__caption').textContent = `${evt.target.getAttribute('alt')}`;
+const makeImageInPopUP = (name, link) => {
+  popUpImageElem.src = link;
+  popUpImageElem.alt = name;
+  popUpImageCaption.textContent = name;
 }
 
 //Функция обрабатывания событий списка карточек
-const handleCardsList =(evt) => {
+const handleCardsList = (evt) => {
 
   if(evt.target.classList.contains('card__image')) {
-    makeImageInPopUP(evt);
-    openPopUp(popUpImage); 
+    makeImageInPopUP(evt.target.getAttribute('alt'), evt.target.getAttribute('src'));
+    openPopUp(popUpImage);
+    return; 
   }
 
   if(evt.target.classList.contains('card__like-btn')) {
-    if(!evt.target.classList.contains('card__like-btn_active')) {
-      evt.target.classList.add('card__like-btn_active')
-    } else {
-      evt.target.classList.remove('card__like-btn_active')
-    }
+    evt.target.classList.toggle('card__like-btn_active');
+    return;
   }
 
   if(evt.target.classList.contains('card__delete')) {
-    evt.target.parentNode.remove();
+    evt.target.closest('.card').remove();
   }
 }
 
-editorBtn.addEventListener('click', () => {openPopUp(popUpProfile)});
+editorBtn.addEventListener('click', () => {
+  openPopUp(popUpProfile)
+  inputName.value = userName.textContent;
+  inputActivity.value = userActivity.textContent;
+  }
+);
 btnClosePopUpProfile.addEventListener('click', () => {closePopUp(popUpProfile)});
 addCardBtn.addEventListener('click', () => {openPopUp(popUpCardEditor)})
 btnClosePopUpCardEditor.addEventListener('click', () => {closePopUp(popUpCardEditor)});
 btnClosePopUpImage.addEventListener('click', () => {closePopUp(popUpImage)});
-formProfile.addEventListener('submit', handleFormSubmit);
+formProfile.addEventListener('submit', handleFormSubmitProfile);
 formCardEditor.addEventListener('submit', addCardImage)
 cardsContainer.addEventListener('click', handleCardsList);
