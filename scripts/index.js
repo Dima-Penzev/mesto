@@ -6,13 +6,13 @@ const addCardBtn = document.querySelector('.user__add-card');
 const popUpProfile = document.querySelector('.popup_type_profile');
 const btnClosePopUpProfile =popUpProfile.querySelector('.popup__close');
 const formProfile = popUpProfile.querySelector('#form-profile');
-const inputName = popUpProfile.querySelector('#name');
-const inputActivity = popUpProfile.querySelector('#activity');
+const inputName = popUpProfile.querySelector('#name-input');
+const inputActivity = popUpProfile.querySelector('#activity-input');
 const popUpCardEditor = document.querySelector('.popup_type_card-editor');
 const btnClosePopUpCardEditor =popUpCardEditor.querySelector('.popup__close');
 const formCardEditor = popUpCardEditor.querySelector('#form-card-editor');
-const inputCardTitle = popUpCardEditor.querySelector('#card-title');
-const inputCardLink = popUpCardEditor.querySelector('#card-link');
+const inputCardTitle = popUpCardEditor.querySelector('#card-title-input');
+const inputCardLink = popUpCardEditor.querySelector('#card-link-input');
 const popUpImage = document.querySelector('.popup_type_image');
 const popUpImageElem = popUpImage.querySelector('.module__image');
 const popUpImageCaption = popUpImage.querySelector('.module__caption');
@@ -103,3 +103,56 @@ btnClosePopUpImage.addEventListener('click', () => {closePopUp(popUpImage)});
 formProfile.addEventListener('submit', handleFormSubmitProfile);
 formCardEditor.addEventListener('submit', addCardImage)
 cardsContainer.addEventListener('click', handleCardsList);
+
+////////////////////////////////////////////
+
+const showInputError = (errorElement, inputElement, config) => {
+  inputElement.classList.add(config.inputErrorClass);
+  // errorElement.classList.add(config.errorClass);
+  errorElement.textContent = inputElement.validationMessage;
+};
+
+const hideInputError = (errorElement, inputElement, config) => {
+  inputElement.classList.remove(config.inputErrorClass);
+  // errorElement.classList.remove(config.errorClass);
+  errorElement.textContent = '';
+};
+
+const checkInputValidity = (formElement, inputElement, config) => {
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+
+  if (!inputElement.validity.valid) {
+    showInputError(errorElement, inputElement, config);
+  } else {
+    hideInputError(errorElement, inputElement, config);
+  }
+};
+
+const setEventListener = (formElement, config) => {
+  const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
+
+  inputList.forEach(inputElement => {
+    inputElement.addEventListener('input', () => {
+      checkInputValidity(formElement, inputElement, config);
+    })
+  })
+}
+
+const enableValidation = (config) => {
+  const formList = Array.from(document.querySelectorAll(config.formSelector));
+
+  formList.forEach(formElement => {
+    formElement.addEventListener('submit', (evt) => {
+      evt.preventDefault();
+    })
+    setEventListener(formElement, config);
+  })
+}
+enableValidation({
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__submit',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  // errorClass: 'popup__error_visible'
+}); 

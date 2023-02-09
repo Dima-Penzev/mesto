@@ -33,13 +33,18 @@
     <footer class="footer root__content">
       <p class="footer__text">&copy; 2023 Mesto Russia</p>
     </footer>
+
+
+
     <div class="popup popup_type_profile">
       <div class="popup__container">
         <button class="popup__close" type="button" aria-label="закрыть"></button>
         <h2 class="popup__title">Редактировать профиль</h2>
-        <form id="form-profile" name="profile-data">
-          <input class="popup__input" id="name" type="text" name="username" placeholder="Имя" required>
-          <input class="popup__input" id="activity" type="text" name="activity" placeholder="О себе">
+        <form class="popup__form" id="form-profile" name="profile-data" novalidate>
+          <input class="popup__input" id="name-input" type="text" name="username" placeholder="Имя" minlength="2" maxlength="40" required>
+          <span class="popup__error name-input-error"></span>
+          <input class="popup__input" id="activity-input" type="text" name="activity" placeholder="О себе" minlength="2" maxlength="200" required>
+          <span class="popup__error activity-input-error"></span>
           <button class="popup__submit" type="submit">Сохранить</button>
         </form>
       </div>
@@ -48,13 +53,18 @@
       <div class="popup__container">
         <button class="popup__close" type="button" aria-label="закрыть"></button>
         <h2 class="popup__title">Новое место</h2>
-        <form id="form-card-editor" name="card-data">
-          <input class="popup__input" id="card-title" type="text" name="card-title" placeholder="Название" required>
-          <input class="popup__input" id="card-link" type="url" name="card-link" placeholder="Ссылка на картинку">
+        <form class="popup__form" id="form-card-editor" name="card-data" novalidate>
+          <input class="popup__input" id="card-title-input" type="text" name="card-title" placeholder="Название" required>
+          <span class="popup__error card-title-input-error"></span>
+          <input class="popup__input" id="card-link-input" type="url" name="card-link" placeholder="Ссылка на картинку" required>
+          <span class="popup__error card-link-input-error"></span>
           <button class="popup__submit" type="submit">Создать</button>
         </form>
       </div>
     </div>
+
+
+
     <div class="popup popup_type_image">
       <div class="popup__container popup__container_type_image">
         <button class="popup__close" type="button" aria-label="закрыть"></button>
