@@ -104,8 +104,10 @@ const resetForm = (form, config) => {
 
 const setPopUpEventListener = () => {
   popUpOverlayList.forEach(popUp => {
-    popUp.addEventListener('click', () => {
-      closePopUp(popUp);
+    popUp.addEventListener('click', (evt) => {
+      if(evt.target.classList.contains('popup')) {
+        closePopUp(popUp);
+      }
     })
   })
 }
