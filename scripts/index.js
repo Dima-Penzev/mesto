@@ -13,6 +13,7 @@ const btnClosePopUpCardEditor =popUpCardEditor.querySelector('.popup__close');
 const formCardEditor = popUpCardEditor.querySelector('#form-card-editor');
 const inputCardTitle = popUpCardEditor.querySelector('#card-title-input');
 const inputCardLink = popUpCardEditor.querySelector('#card-link-input');
+const btnAddCard = popUpCardEditor.querySelector('.popup__button');
 const popUpImage = document.querySelector('.popup_type_image');
 const popUpImageElem = popUpImage.querySelector('.module__image');
 const popUpImageCaption = popUpImage.querySelector('.module__caption');
@@ -48,7 +49,7 @@ const closePopUp = (popUp) => {
 
 // Функция изменения данных о пользователе
 const handleFormSubmitProfile = (evt) => {
-  evt.preventDefault();
+  // evt.preventDefault();
   userName.textContent = inputName.value;
   userActivity.textContent = inputActivity.value;
   closePopUp(popUpProfile);
@@ -57,7 +58,7 @@ const handleFormSubmitProfile = (evt) => {
 
 //Функция добавления карточки на страницу
 const addCardImage = (evt) => {
-  evt.preventDefault();
+  // evt.preventDefault();
   const newCard = createCard({name: inputCardTitle.value, link: inputCardLink.value});
   cardsContainer.prepend(newCard);
   closePopUp(popUpCardEditor);
@@ -90,6 +91,15 @@ const handleCardsList = (evt) => {
   }
 }
 
+const resetForm = (form, config) => {
+  form.reset();
+  const inputList = createInputList(form, config.inputSelector);
+  inputList.forEach(input => {
+    input.classList.remove(config.inputErrorClass);
+    input.nextElementSibling.textContent = '';
+  });
+}
+
 editorBtn.addEventListener('click', () => {
   openPopUp(popUpProfile)
   inputName.value = userName.textContent;
@@ -98,15 +108,15 @@ editorBtn.addEventListener('click', () => {
 );
 btnClosePopUpProfile.addEventListener('click', () => {
   closePopUp(popUpProfile);
-  formProfile.reset();
+  resetForm(formProfile, setValidation);
 });
 addCardBtn.addEventListener('click', () => {
-  openPopUp(popUpCardEditor)
-  disabledButton (popUpCardEditor.querySelector('.popup__button'), 'popup__button_disabled');
+  openPopUp(popUpCardEditor);
+  disabledButton (btnAddCard, 'popup__button_disabled');
 });
-btnClosePopUpCardEditor.addEventListener('click', () => {
+btnClosePopUpCardEditor.addEventListener('click', (e) => {
   closePopUp(popUpCardEditor);
-  formCardEditor.reset();
+  resetForm(formCardEditor, setValidation);
 });
 btnClosePopUpImage.addEventListener('click', () => {closePopUp(popUpImage)});
 formProfile.addEventListener('submit', handleFormSubmitProfile);
@@ -143,7 +153,7 @@ const hasInvalidInput = (inputs) => {
   })
 };
 
-function disabledButton (buttonElement, disabledClass) {
+const disabledButton = (buttonElement, disabledClass) => {
     buttonElement.classList.add(disabledClass);
     buttonElement.disabled = true;
 }
@@ -162,12 +172,15 @@ const toggleButtonState = (inputList, buttonElement, config) => {
   }
 };
 
+const createInputList = (form, inputClass) => {
+  return Array.from(form.querySelectorAll(inputClass));
+}
+
 const setEventListener = (formElement, config) => {
-  const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
+  const inputList = createInputList(formElement, config.inputSelector);
   const buttonElement = formElement.querySelector(config.submitButtonSelector);
   
-  inputList.forEach(inputElement => {
-    
+  inputList.forEach(inputElement => { 
     inputElement.addEventListener('input', () => {
       checkInputValidity(formElement, inputElement, config);
       toggleButtonState(inputList, buttonElement, config);
@@ -184,12 +197,6 @@ const enableValidation = (config) => {
     })
     setEventListener(formElement, config);
   })
-}
-enableValidation({
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button',
-  inactiveButtonClass: 'popup__button_disabled',
-  inputErrorClass: 'popup__input_type_error',
-  // errorClass: 'popup__error_visible'
-}); 
+};
+
+enableValidation(setValidation); 

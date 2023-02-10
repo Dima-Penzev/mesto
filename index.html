@@ -33,9 +33,6 @@
     <footer class="footer root__content">
       <p class="footer__text">&copy; 2023 Mesto Russia</p>
     </footer>
-
-
-
     <div class="popup popup_type_profile">
       <div class="popup__container">
         <button class="popup__close" type="button" aria-label="закрыть"></button>
@@ -54,7 +51,7 @@
         <button class="popup__close" type="button" aria-label="закрыть"></button>
         <h2 class="popup__title">Новое место</h2>
         <form class="popup__form" id="form-card-editor" name="card-data" novalidate>
-          <input class="popup__input" id="card-title-input" type="text" name="card-title" placeholder="Название" required>
+          <input class="popup__input" id="card-title-input" type="text" name="card-title" placeholder="Название" minlength="2" maxlength="30" required>
           <span class="popup__error card-title-input-error"></span>
           <input class="popup__input" id="card-link-input" type="url" name="card-link" placeholder="Ссылка на картинку" required>
           <span class="popup__error card-link-input-error"></span>
@@ -62,9 +59,6 @@
         </form>
       </div>
     </div>
-
-
-
     <div class="popup popup_type_image">
       <div class="popup__container popup__container_type_image">
         <button class="popup__close" type="button" aria-label="закрыть"></button>
