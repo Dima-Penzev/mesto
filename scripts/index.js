@@ -8,6 +8,7 @@ const btnClosePopUpProfile =popUpProfile.querySelector('.popup__close');
 const formProfile = popUpProfile.querySelector('#form-profile');
 const inputName = popUpProfile.querySelector('#name-input');
 const inputActivity = popUpProfile.querySelector('#activity-input');
+const btnEditProfile = popUpProfile.querySelector('.popup__button');
 const popUpCardEditor = document.querySelector('.popup_type_card-editor');
 const btnClosePopUpCardEditor =popUpCardEditor.querySelector('.popup__close');
 const formCardEditor = popUpCardEditor.querySelector('#form-card-editor');
@@ -19,6 +20,7 @@ const popUpImageElem = popUpImage.querySelector('.module__image');
 const popUpImageCaption = popUpImage.querySelector('.module__caption');
 const btnClosePopUpImage = popUpImage.querySelector('.popup__close');
 const cardTemplate = document.querySelector('#card').content;
+const popUpOverlayList = document.querySelectorAll('.popup');
 
 //Функция создания карточки с изображением и названием
 const createCard = imageData => {
@@ -100,10 +102,21 @@ const resetForm = (form, config) => {
   });
 }
 
+const setPopUpEventListener = () => {
+  popUpOverlayList.forEach(popUp => {
+    popUp.addEventListener('click', () => {
+      closePopUp(popUp);
+    })
+  })
+}
+
+setPopUpEventListener();
+
 editorBtn.addEventListener('click', () => {
-  openPopUp(popUpProfile)
+  openPopUp(popUpProfile);
   inputName.value = userName.textContent;
   inputActivity.value = userActivity.textContent;
+  enableButton(btnEditProfile, setValidation.inactiveButtonClass);
   }
 );
 btnClosePopUpProfile.addEventListener('click', () => {
@@ -112,7 +125,7 @@ btnClosePopUpProfile.addEventListener('click', () => {
 });
 addCardBtn.addEventListener('click', () => {
   openPopUp(popUpCardEditor);
-  disabledButton (btnAddCard, 'popup__button_disabled');
+  disabledButton (btnAddCard, setValidation.inactiveButtonClass);
 });
 btnClosePopUpCardEditor.addEventListener('click', (e) => {
   closePopUp(popUpCardEditor);
@@ -176,7 +189,7 @@ const createInputList = (form, inputClass) => {
   return Array.from(form.querySelectorAll(inputClass));
 }
 
-const setEventListener = (formElement, config) => {
+const setInputEventListener = (formElement, config) => {
   const inputList = createInputList(formElement, config.inputSelector);
   const buttonElement = formElement.querySelector(config.submitButtonSelector);
   
@@ -195,7 +208,7 @@ const enableValidation = (config) => {
     formElement.addEventListener('submit', (evt) => {
       evt.preventDefault();
     })
-    setEventListener(formElement, config);
+    setInputEventListener(formElement, config);
   })
 };
 
