@@ -4,13 +4,11 @@ const userActivity = document.querySelector('.user__activity');
 const cardsContainer = document.querySelector('.cards-container');
 const addCardBtn = document.querySelector('.user__add-card');
 const popUpProfile = document.querySelector('.popup_type_profile');
-const btnClosePopUpProfile =popUpProfile.querySelector('.popup__close');
 const formProfile = popUpProfile.querySelector('#form-profile');
 const inputName = popUpProfile.querySelector('#name-input');
 const inputActivity = popUpProfile.querySelector('#activity-input');
 const btnEditProfile = popUpProfile.querySelector('.popup__button');
 const popUpCardEditor = document.querySelector('.popup_type_card-editor');
-const btnClosePopUpCardEditor =popUpCardEditor.querySelector('.popup__close');
 const formCardEditor = popUpCardEditor.querySelector('#form-card-editor');
 const inputCardTitle = popUpCardEditor.querySelector('#card-title-input');
 const inputCardLink = popUpCardEditor.querySelector('#card-link-input');
@@ -18,7 +16,6 @@ const btnAddCard = popUpCardEditor.querySelector('.popup__button');
 const popUpImage = document.querySelector('.popup_type_image');
 const popUpImageElem = popUpImage.querySelector('.module__image');
 const popUpImageCaption = popUpImage.querySelector('.module__caption');
-const btnClosePopUpImage = popUpImage.querySelector('.popup__close');
 const cardTemplate = document.querySelector('#card').content;
 const popUpOverlayList = document.querySelectorAll('.popup');
 
@@ -39,18 +36,42 @@ const makeInitialCardsSet = images => images.map(createCard);
 const cardsList = makeInitialCardsSet(initialCards);
 cardsContainer.append(...cardsList);
 
+//Функция закрытия модального окна при нажатии на "Overlay", клавишу "Escape", крестик
+const closecanceledPopUp = (evt) => {
+  const { formSelector } = setValidation;
+  const popUpList = Array.from(document.querySelectorAll('.popup'));
+
+  popUpList.forEach(popUp => {
+    const formElement = popUp.querySelector(formSelector);
+
+    if(evt.target.classList.contains('popup') || 
+      evt.target.classList.contains('popup__close') || 
+      evt.code === "Escape") {
+    
+        if(formElement) {
+          resetFormAndErrors(formElement, setValidation);
+        }
+          closePopUp(popUp);
+      }
+  })
+}
+
 // Функция открытия модального окна
 const openPopUp = (popUp) => {
   popUp.classList.add('popup_opened');
+  popUp.addEventListener('click', closecanceledPopUp);
+  window.addEventListener('keydown', closecanceledPopUp);
 }
 
 // Функция закрытия модального окна
 const closePopUp = (popUp) => {
-  popUp.classList.remove('popup_opened');
-}
+    popUp.classList.remove('popup_opened');
+    popUp.removeEventListener('click', closecanceledPopUp);
+    window.removeEventListener('keydown', closecanceledPopUp);
+  }
 
 // Функция изменения данных о пользователе
-const handleFormSubmitProfile = () => {
+const handleFormSubmitProfile = (evt) => {
   userName.textContent = inputName.value;
   userActivity.textContent = inputActivity.value;
   closePopUp(popUpProfile);
@@ -58,7 +79,7 @@ const handleFormSubmitProfile = () => {
 }
 
 //Функция добавления карточки на страницу
-const addCardImage = () => {
+const addCardImage = (evt) => {
   const newCard = createCard({name: inputCardTitle.value, link: inputCardLink.value});
   cardsContainer.prepend(newCard);
   closePopUp(popUpCardEditor);
@@ -103,26 +124,6 @@ const resetFormAndErrors = (form, config) => {
   })
 };
 
-//Функция устанавливающая обработчики событий на все модальные окна для последующего их закрывания при клике на 'overlay'  
-const setPopUpEventListener = (config) => {
-  const { formSelector } = config;
-
-  popUpOverlayList.forEach(popUp => {
-    popUp.addEventListener('click', (evt) => {
-      if(evt.target.classList.contains('popup')) {
-        const formElement = popUp.querySelector(formSelector);
-        
-        if(formElement) {
-          resetFormAndErrors(formElement, config);
-        }
-        closePopUp(popUp);
-      }
-    })
-  })
-}
-
-setPopUpEventListener(setValidation);
-
 editorBtn.addEventListener('click', () => {
   openPopUp(popUpProfile);
   inputName.value = userName.textContent;
@@ -130,19 +131,10 @@ editorBtn.addEventListener('click', () => {
   enableButton(btnEditProfile, setValidation.inactiveButtonClass);
   }
 );
-btnClosePopUpProfile.addEventListener('click', () => {
-  closePopUp(popUpProfile);
-  resetFormAndErrors(formProfile, setValidation);
-});
 addCardBtn.addEventListener('click', () => {
   openPopUp(popUpCardEditor);
   disabledButton (btnAddCard, setValidation.inactiveButtonClass);
 });
-btnClosePopUpCardEditor.addEventListener('click', () => {
-  closePopUp(popUpCardEditor);
-  resetFormAndErrors(formCardEditor, setValidation);
-});
-btnClosePopUpImage.addEventListener('click', () => {closePopUp(popUpImage)});
 formProfile.addEventListener('submit', handleFormSubmitProfile);
 formCardEditor.addEventListener('submit', addCardImage);
 cardsContainer.addEventListener('click', handleCardsList);

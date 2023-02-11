@@ -35,7 +35,7 @@ const disabledButton = (buttonElement, disabledClass) => {
     buttonElement.disabled = true;
 }
 
-function enableButton (buttonElement, disabledClass) {
+const enableButton = (buttonElement, disabledClass) => {
     buttonElement.classList.remove(disabledClass);
     buttonElement.disabled = false;
 }
