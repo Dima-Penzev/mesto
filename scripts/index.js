@@ -37,7 +37,7 @@ const cardsList = makeInitialCardsSet(initialCards);
 cardsContainer.append(...cardsList);
 
 //Функция закрытия модального окна при нажатии на "Overlay", клавишу "Escape", крестик
-const closecanceledPopUp = (evt) => {
+const closeUnsubmittedPopUp = (evt) => {
   const { formSelector } = setValidation;
   const popUpList = Array.from(document.querySelectorAll('.popup'));
 
@@ -59,15 +59,15 @@ const closecanceledPopUp = (evt) => {
 // Функция открытия модального окна
 const openPopUp = (popUp) => {
   popUp.classList.add('popup_opened');
-  popUp.addEventListener('click', closecanceledPopUp);
-  window.addEventListener('keydown', closecanceledPopUp);
+  popUp.addEventListener('click', closeUnsubmittedPopUp);
+  window.addEventListener('keydown', closeUnsubmittedPopUp);
 }
 
 // Функция закрытия модального окна
 const closePopUp = (popUp) => {
     popUp.classList.remove('popup_opened');
-    popUp.removeEventListener('click', closecanceledPopUp);
-    window.removeEventListener('keydown', closecanceledPopUp);
+    popUp.removeEventListener('click', closeUnsubmittedPopUp);
+    window.removeEventListener('keydown', closeUnsubmittedPopUp);
   }
 
 // Функция изменения данных о пользователе
@@ -112,7 +112,7 @@ const handleCardsList = (evt) => {
   }
 }
 
-//Функция сбрасывания содержания форм и ошибок
+//Функция очистки содержания форм и ошибок
 const resetFormAndErrors = (form, config) => {
   const { inputSelector } = config;
   const inputList = createInputList(form, inputSelector);
