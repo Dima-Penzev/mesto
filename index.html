@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./pages/index.css">
     <script defer src="./scripts/constants.js"></script>
+    <script defer src="./scripts/validate.js"></script>
     <script defer src="./scripts/index.js"></script>
     <title>Место</title>
 </head>
@@ -38,10 +39,14 @@
         <button class="popup__close" type="button" aria-label="закрыть"></button>
         <h2 class="popup__title">Редактировать профиль</h2>
         <form class="popup__form" id="form-profile" name="profile-data" novalidate>
-          <input class="popup__input" id="name-input" type="text" name="username" placeholder="Имя" minlength="2" maxlength="40" required>
-          <span class="popup__error name-input-error"></span>
-          <input class="popup__input" id="activity-input" type="text" name="activity" placeholder="О себе" minlength="2" maxlength="200" required>
-          <span class="popup__error activity-input-error"></span>
+          <div class="popup__input-container">
+            <input class="popup__input" id="name-input" type="text" name="username" placeholder="Имя" minlength="2" maxlength="40" required>
+            <span class="popup__error name-input-error"></span>
+          </div>          
+          <div class="popup__input-container">
+            <input class="popup__input" id="activity-input" type="text" name="activity" placeholder="О себе" minlength="2" maxlength="200" required>
+            <span class="popup__error activity-input-error"></span>
+          </div>          
           <button class="popup__button" type="submit">Сохранить</button>
         </form>
       </div>
@@ -51,10 +56,14 @@
         <button class="popup__close" type="button" aria-label="закрыть"></button>
         <h2 class="popup__title">Новое место</h2>
         <form class="popup__form" id="form-card-editor" name="card-data" novalidate>
-          <input class="popup__input" id="card-title-input" type="text" name="card-title" placeholder="Название" minlength="2" maxlength="30" required>
-          <span class="popup__error card-title-input-error"></span>
-          <input class="popup__input" id="card-link-input" type="url" name="card-link" placeholder="Ссылка на картинку" required>
-          <span class="popup__error card-link-input-error"></span>
+          <div class="popup__input-container">
+            <input class="popup__input" id="card-title-input" type="text" name="card-title" placeholder="Название" minlength="2" maxlength="30" required>
+            <span class="popup__error card-title-input-error"></span>
+          </div>          
+          <div class="popup__input-container">
+            <input class="popup__input" id="card-link-input" type="url" name="card-link" placeholder="Ссылка на картинку" required>
+            <span class="popup__error card-link-input-error"></span>
+          </div>
           <button class="popup__button" type="submit">Создать</button>
         </form>
       </div>

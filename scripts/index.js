@@ -50,8 +50,7 @@ const closePopUp = (popUp) => {
 }
 
 // Функция изменения данных о пользователе
-const handleFormSubmitProfile = (evt) => {
-  // evt.preventDefault();
+const handleFormSubmitProfile = () => {
   userName.textContent = inputName.value;
   userActivity.textContent = inputActivity.value;
   closePopUp(popUpProfile);
@@ -59,8 +58,7 @@ const handleFormSubmitProfile = (evt) => {
 }
 
 //Функция добавления карточки на страницу
-const addCardImage = (evt) => {
-  // evt.preventDefault();
+const addCardImage = () => {
   const newCard = createCard({name: inputCardTitle.value, link: inputCardLink.value});
   cardsContainer.prepend(newCard);
   closePopUp(popUpCardEditor);
@@ -93,26 +91,37 @@ const handleCardsList = (evt) => {
   }
 }
 
-const resetForm = (form, config) => {
+//Функция сбрасывания содержания форм и ошибок
+const resetFormAndErrors = (form, config) => {
+  const { inputSelector } = config;
+  const inputList = createInputList(form, inputSelector);
+  
   form.reset();
-  const inputList = createInputList(form, config.inputSelector);
   inputList.forEach(input => {
-    input.classList.remove(config.inputErrorClass);
-    input.nextElementSibling.textContent = '';
-  });
-}
+    const errorElement = form.querySelector(`.${input.id}-error`);
+    hideInputError(errorElement, input, config);
+  })
+};
 
-const setPopUpEventListener = () => {
+//Функция устанавливающая обработчики событий на все модальные окна для последующего их закрывания при клике на 'overlay'  
+const setPopUpEventListener = (config) => {
+  const { formSelector } = config;
+
   popUpOverlayList.forEach(popUp => {
     popUp.addEventListener('click', (evt) => {
       if(evt.target.classList.contains('popup')) {
+        const formElement = popUp.querySelector(formSelector);
+        
+        if(formElement) {
+          resetFormAndErrors(formElement, config);
+        }
         closePopUp(popUp);
       }
     })
   })
 }
 
-setPopUpEventListener();
+setPopUpEventListener(setValidation);
 
 editorBtn.addEventListener('click', () => {
   openPopUp(popUpProfile);
@@ -123,95 +132,17 @@ editorBtn.addEventListener('click', () => {
 );
 btnClosePopUpProfile.addEventListener('click', () => {
   closePopUp(popUpProfile);
-  resetForm(formProfile, setValidation);
+  resetFormAndErrors(formProfile, setValidation);
 });
 addCardBtn.addEventListener('click', () => {
   openPopUp(popUpCardEditor);
   disabledButton (btnAddCard, setValidation.inactiveButtonClass);
 });
-btnClosePopUpCardEditor.addEventListener('click', (e) => {
+btnClosePopUpCardEditor.addEventListener('click', () => {
   closePopUp(popUpCardEditor);
-  resetForm(formCardEditor, setValidation);
+  resetFormAndErrors(formCardEditor, setValidation);
 });
 btnClosePopUpImage.addEventListener('click', () => {closePopUp(popUpImage)});
 formProfile.addEventListener('submit', handleFormSubmitProfile);
 formCardEditor.addEventListener('submit', addCardImage);
 cardsContainer.addEventListener('click', handleCardsList);
-
-////////////////////////////////////////////
-
-const showInputError = (errorElement, inputElement, config) => {
-  inputElement.classList.add(config.inputErrorClass);
-  // errorElement.classList.add(config.errorClass);
-  errorElement.textContent = inputElement.validationMessage;
-};
-
-const hideInputError = (errorElement, inputElement, config) => {
-  inputElement.classList.remove(config.inputErrorClass);
-  // errorElement.classList.remove(config.errorClass);
-  errorElement.textContent = '';
-};
-
-const checkInputValidity = (formElement, inputElement, config) => {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-
-  if (!inputElement.validity.valid) {
-    showInputError(errorElement, inputElement, config);
-  } else {
-    hideInputError(errorElement, inputElement, config);
-  }
-};
-
-const hasInvalidInput = (inputs) => {
-  return inputs.some(inputElement => {
-    return !inputElement.validity.valid;
-  })
-};
-
-const disabledButton = (buttonElement, disabledClass) => {
-    buttonElement.classList.add(disabledClass);
-    buttonElement.disabled = true;
-}
-
-function enableButton (buttonElement, disabledClass) {
-    buttonElement.classList.remove(disabledClass);
-    buttonElement.disabled = false;
-}
-
-const toggleButtonState = (inputList, buttonElement, config) => {
-  
-  if (hasInvalidInput(inputList)) {
-    disabledButton(buttonElement, config.inactiveButtonClass)
-  } else {
-    enableButton (buttonElement, config.inactiveButtonClass)
-  }
-};
-
-const createInputList = (form, inputClass) => {
-  return Array.from(form.querySelectorAll(inputClass));
-}
-
-const setInputEventListener = (formElement, config) => {
-  const inputList = createInputList(formElement, config.inputSelector);
-  const buttonElement = formElement.querySelector(config.submitButtonSelector);
-  
-  inputList.forEach(inputElement => { 
-    inputElement.addEventListener('input', () => {
-      checkInputValidity(formElement, inputElement, config);
-      toggleButtonState(inputList, buttonElement, config);
-    })
-  })
-};
-
-const enableValidation = (config) => {
-  const formList = Array.from(document.querySelectorAll(config.formSelector));
-
-  formList.forEach(formElement => {
-    formElement.addEventListener('submit', (evt) => {
-      evt.preventDefault();
-    })
-    setInputEventListener(formElement, config);
-  })
-};
-
-enableValidation(setValidation); 
