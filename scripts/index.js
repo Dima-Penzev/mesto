@@ -17,7 +17,6 @@ const popUpImage = document.querySelector('.popup_type_image');
 const popUpImageElem = popUpImage.querySelector('.module__image');
 const popUpImageCaption = popUpImage.querySelector('.module__caption');
 const cardTemplate = document.querySelector('#card').content;
-const popUpOverlayList = document.querySelectorAll('.popup');
 
 //Функция создания карточки с изображением и названием
 const createCard = imageData => {
@@ -36,17 +35,29 @@ const makeInitialCardsSet = images => images.map(createCard);
 const cardsList = makeInitialCardsSet(initialCards);
 cardsContainer.append(...cardsList);
 
+//Функция очистки содержания форм и ошибок
+const resetFormAndErrors = (form, config) => {
+  const { inputSelector } = config;
+  const inputsList = createInputsList(form, inputSelector);
+  
+  form.reset();
+  inputsList.forEach(input => {
+    const errorElement = form.querySelector(`.${input.id}-error`);
+    hideInputError(errorElement, input, config);
+  })
+};
+
 //Функция закрытия модального окна при нажатии на "Overlay", клавишу "Escape", крестик
 const closeUnsubmittedPopUp = (evt) => {
   const { formSelector } = setValidation;
-  const popUpList = Array.from(document.querySelectorAll('.popup'));
+  const popUpsList = Array.from(document.querySelectorAll('.popup'));
 
-  popUpList.forEach(popUp => {
+  popUpsList.forEach(popUp => {
     const formElement = popUp.querySelector(formSelector);
 
     if(evt.target.classList.contains('popup') || 
       evt.target.classList.contains('popup__close') || 
-      evt.code === "Escape") {
+      evt.code === CLOSE_BTN) {
     
         if(formElement) {
           resetFormAndErrors(formElement, setValidation);
@@ -112,28 +123,18 @@ const handleCardsList = (evt) => {
   }
 }
 
-//Функция очистки содержания форм и ошибок
-const resetFormAndErrors = (form, config) => {
-  const { inputSelector } = config;
-  const inputList = createInputList(form, inputSelector);
-  
-  form.reset();
-  inputList.forEach(input => {
-    const errorElement = form.querySelector(`.${input.id}-error`);
-    hideInputError(errorElement, input, config);
-  })
-};
-
 editorBtn.addEventListener('click', () => {
+  const { inactiveButtonClass } = setValidation;
   openPopUp(popUpProfile);
   inputName.value = userName.textContent;
   inputActivity.value = userActivity.textContent;
-  enableButton(btnEditProfile, setValidation.inactiveButtonClass);
+  enableButton(btnEditProfile, inactiveButtonClass);
   }
 );
 addCardBtn.addEventListener('click', () => {
+  const { inactiveButtonClass } = setValidation;
   openPopUp(popUpCardEditor);
-  disabledButton (btnAddCard, setValidation.inactiveButtonClass);
+  disabledButton (btnAddCard, inactiveButtonClass);
 });
 formProfile.addEventListener('submit', handleFormSubmitProfile);
 formCardEditor.addEventListener('submit', addCardImage);

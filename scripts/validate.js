@@ -1,3 +1,4 @@
+//Функция показывающая ошибку поля ввода формы
 const showInputError = (errorElement, inputElement, config) => {
   const { inputErrorClass, errorClass } = config;
 
@@ -6,6 +7,7 @@ const showInputError = (errorElement, inputElement, config) => {
   errorElement.textContent = inputElement.validationMessage;
 };
 
+//Функция скрывающая ошибку поля ввода формы
 const hideInputError = (errorElement, inputElement, config) => {
   const { inputErrorClass, errorClass } = config;
 
@@ -14,6 +16,7 @@ const hideInputError = (errorElement, inputElement, config) => {
   errorElement.textContent = '';
 };
 
+//Функция добавления или удаления ошибки по результатам проверки поля вводя формы
 const checkInputValidity = (formElement, inputElement, config) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
 
@@ -24,58 +27,66 @@ const checkInputValidity = (formElement, inputElement, config) => {
   }
 };
 
+//Функция поиска невалидного поля ввода формы
 const hasInvalidInput = (inputs) => {
   return inputs.some(inputElement => {
     return !inputElement.validity.valid;
   })
 };
 
+//Функция привадящая кнопку в неактивное состояние
 const disabledButton = (buttonElement, disabledClass) => {
     buttonElement.classList.add(disabledClass);
     buttonElement.disabled = true;
 }
 
+//Функция привадящая кнопку в активное состояние
 const enableButton = (buttonElement, disabledClass) => {
     buttonElement.classList.remove(disabledClass);
     buttonElement.disabled = false;
 }
 
-const toggleButtonState = (inputList, buttonElement, config) => {
+//Функция переключения состояния кнопки "submit" в форме
+const toggleButtonState = (inputsList, buttonElement, config) => {
   const { inactiveButtonClass } = config;
   
-  if (hasInvalidInput(inputList)) {
+  if (hasInvalidInput(inputsList)) {
     disabledButton(buttonElement, inactiveButtonClass);
   } else {
     enableButton (buttonElement, inactiveButtonClass);
   }
 };
 
-const createInputList = (form, inputClass) => {
+//Функция создающая массив полей ввода формы
+const createInputsList = (form, inputClass) => {
   return Array.from(form.querySelectorAll(inputClass));
 }
 
-const setInputEventListener = (formElement, config) => {
-  const { inputSelector, submitButtonSelector } = config;
-  const inputList = createInputList(formElement, inputSelector);
-  const buttonElement = formElement.querySelector(submitButtonSelector);
+//Функция добавляющая слушатели событий для полей ввода формы
+const setInputEventListener = (formElement, buttonElement, config) => {
+  const { inputSelector } = config;
+  const inputsList = createInputsList(formElement, inputSelector);
   
-  inputList.forEach(inputElement => { 
+  inputsList.forEach(inputElement => { 
     inputElement.addEventListener('input', () => {
       checkInputValidity(formElement, inputElement, config);
-      toggleButtonState(inputList, buttonElement, config);
+      toggleButtonState(inputsList, buttonElement, config);
     })
   })
 };
 
+//Функция запускающая валидацию форм
 const enableValidation = (config) => {
-  const { formSelector } = config;
-  const formList = Array.from(document.querySelectorAll(formSelector));
-
-  formList.forEach(formElement => {
+  const { formSelector, submitButtonSelector, disabledClass } = config;
+  const formsList = Array.from(document.querySelectorAll(formSelector));
+  
+  formsList.forEach(formElement => {
+    const buttonElement = formElement.querySelector(submitButtonSelector);
     formElement.addEventListener('submit', (evt) => {
       evt.preventDefault();
+      disabledButton(buttonElement, disabledClass);
     })
-    setInputEventListener(formElement, config);
+    setInputEventListener(formElement, buttonElement, config);
   })
 };
 

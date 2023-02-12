@@ -33,3 +33,5 @@ const setValidation = {
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__error_visible',
 };
+
+const CLOSE_BTN = "Escape";
