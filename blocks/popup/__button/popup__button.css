@@ -1,7 +1,7 @@
-.popup__submit {
+.popup__button {
   width: 100%;
   min-height: 46px;
-  margin-top: 45px;
+  margin-top: 15px;
   background-color: #000000;
   border: none;
   border-radius: 2px;
@@ -14,13 +14,13 @@
   transition: opacity 250ms ease-in;
 }
 
-.popup__submit:hover {
+.popup__button:hover {
   opacity: .8;
 }
 
 @media screen and (min-width: 1000px) {
-  .popup__submit {
-    margin-top: 48px;
+  .popup__button {
+    margin-top: 8px;
     min-height: 50px;
     font-size: 18px;
   }
