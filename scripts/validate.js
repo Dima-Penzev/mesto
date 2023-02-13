@@ -66,6 +66,11 @@ const createInputsList = (form, inputClass) => {
 const setInputEventListener = (formElement, buttonElement, config) => {
   const { inputSelector } = config;
   const inputsList = createInputsList(formElement, inputSelector);
+  toggleButtonState(inputsList, buttonElement, config);
+
+  formElement.addEventListener('reset', () => {
+    setTimeout(() => {toggleButtonState(inputsList, buttonElement, config)}, 0)
+  });
   
   inputsList.forEach(inputElement => { 
     inputElement.addEventListener('input', () => {
