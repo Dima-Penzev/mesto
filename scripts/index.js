@@ -4,12 +4,12 @@ const userActivity = document.querySelector('.user__activity');
 const cardsContainer = document.querySelector('.cards-container');
 const addCardBtn = document.querySelector('.user__add-card');
 const popUpProfile = document.querySelector('.popup_type_profile');
-const formProfile = popUpProfile.querySelector('#form-profile');
+const formProfile = document.forms['profile-data'];
 const inputName = popUpProfile.querySelector('#name-input');
 const inputActivity = popUpProfile.querySelector('#activity-input');
 const btnEditProfile = popUpProfile.querySelector('.popup__button');
 const popUpCardEditor = document.querySelector('.popup_type_card-editor');
-const formCardEditor = popUpCardEditor.querySelector('#form-card-editor');
+const formCardEditor = document.forms['card-data'];
 const inputCardTitle = popUpCardEditor.querySelector('#card-title-input');
 const inputCardLink = popUpCardEditor.querySelector('#card-link-input');
 const btnAddCard = popUpCardEditor.querySelector('.popup__button');
@@ -17,14 +17,42 @@ const popUpImage = document.querySelector('.popup_type_image');
 const popUpImageElem = popUpImage.querySelector('.module__image');
 const popUpImageCaption = popUpImage.querySelector('.module__caption');
 const cardTemplate = document.querySelector('#card').content;
+const popUpsList = Array.from(document.querySelectorAll('.popup'));
+
+//Функция открытия увеличенной картинки в модальном окне
+const showBigImage = (evt) => {
+  makeImageInPopUP(evt.target.getAttribute('alt'), evt.target.getAttribute('src'));
+  openPopUp(popUpImage);
+}
+
+//Функция удаления карточки из коллекции
+const deleteCard = (targetClass, evt) => {
+  evt.target.closest(targetClass).remove();
+}
+
+//Функция переключения состояния кнопки "like"
+const handleBtnState = (stateClass, evt) => {
+  evt.target.classList.toggle(stateClass);
+}
 
 //Функция создания карточки с изображением и названием
 const createCard = imageData => {
   const cardMarkup = cardTemplate.querySelector('.card').cloneNode(true);
   const cardImage = cardMarkup.querySelector('.card__image');
+  const btnDeleteCard = cardMarkup.querySelector('.card__delete');
+  const btnLikeCard = cardMarkup.querySelector('.card__like-btn');
+
   cardImage.src = imageData.link;
   cardImage.alt = imageData.name;
   cardMarkup.querySelector('.card__text').textContent = imageData.name;
+
+  cardImage.addEventListener('click', showBigImage);
+  btnDeleteCard.addEventListener('click', (evt) => {
+    deleteCard('.card', evt);
+  });
+  btnLikeCard.addEventListener('click', (evt) =>{
+    handleBtnState('card__like-btn_active', evt);
+  });
 
   return cardMarkup;
 }
@@ -49,20 +77,13 @@ const resetFormAndErrors = (form, config) => {
 
 //Функция закрытия модального окна при нажатии на "Overlay", клавишу "Escape", крестик
 const closeUnsubmittedPopUp = (evt) => {
-  const { formSelector } = setValidation;
-  const popUpsList = Array.from(document.querySelectorAll('.popup'));
-
   popUpsList.forEach(popUp => {
-    const formElement = popUp.querySelector(formSelector);
 
     if(evt.target.classList.contains('popup') || 
       evt.target.classList.contains('popup__close') || 
       evt.code === CLOSE_BTN) {
-    
-        if(formElement) {
-          resetFormAndErrors(formElement, setValidation);
-        }
-          closePopUp(popUp);
+
+        closePopUp(popUp);
       }
   })
 }
@@ -70,27 +91,26 @@ const closeUnsubmittedPopUp = (evt) => {
 // Функция открытия модального окна
 const openPopUp = (popUp) => {
   popUp.classList.add('popup_opened');
-  popUp.addEventListener('click', closeUnsubmittedPopUp);
+  popUp.addEventListener('mousedown', closeUnsubmittedPopUp);
   window.addEventListener('keydown', closeUnsubmittedPopUp);
 }
 
 // Функция закрытия модального окна
 const closePopUp = (popUp) => {
     popUp.classList.remove('popup_opened');
-    popUp.removeEventListener('click', closeUnsubmittedPopUp);
+    popUp.removeEventListener('mousedown', closeUnsubmittedPopUp);
     window.removeEventListener('keydown', closeUnsubmittedPopUp);
   }
 
 // Функция изменения данных о пользователе
-const handleFormSubmitProfile = (evt) => {
+const handleFormSubmitProfile = () => {
   userName.textContent = inputName.value;
   userActivity.textContent = inputActivity.value;
   closePopUp(popUpProfile);
-  formProfile.reset();
 }
 
 //Функция добавления карточки на страницу
-const addCardImage = (evt) => {
+const addCardImage = () => {
   const newCard = createCard({name: inputCardTitle.value, link: inputCardLink.value});
   cardsContainer.prepend(newCard);
   closePopUp(popUpCardEditor);
@@ -104,38 +124,13 @@ const makeImageInPopUP = (name, link) => {
   popUpImageCaption.textContent = name;
 }
 
-//Функция обрабатывания событий списка карточек
-const handleCardsList = (evt) => {
-
-  if(evt.target.classList.contains('card__image')) {
-    makeImageInPopUP(evt.target.getAttribute('alt'), evt.target.getAttribute('src'));
-    openPopUp(popUpImage);
-    return; 
-  }
-
-  if(evt.target.classList.contains('card__like-btn')) {
-    evt.target.classList.toggle('card__like-btn_active');
-    return;
-  }
-
-  if(evt.target.classList.contains('card__delete')) {
-    evt.target.closest('.card').remove();
-  }
-}
-
 editorBtn.addEventListener('click', () => {
-  const { inactiveButtonClass } = setValidation;
+  resetFormAndErrors(formProfile, setValidation);
   openPopUp(popUpProfile);
   inputName.value = userName.textContent;
   inputActivity.value = userActivity.textContent;
-  enableButton(btnEditProfile, inactiveButtonClass);
   }
 );
-addCardBtn.addEventListener('click', () => {
-  const { inactiveButtonClass } = setValidation;
-  openPopUp(popUpCardEditor);
-  disabledButton (btnAddCard, inactiveButtonClass);
-});
+addCardBtn.addEventListener('click', () => {openPopUp(popUpCardEditor)});
 formProfile.addEventListener('submit', handleFormSubmitProfile);
 formCardEditor.addEventListener('submit', addCardImage);
-cardsContainer.addEventListener('click', handleCardsList);
