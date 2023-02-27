@@ -28,4 +28,16 @@ class Card {
   _setEventListeners() {
     
   }
+
+  _handleCardClick() {
+
+  }
+
+  _handleOpenPopup() {
+
+  }
+
+  _handleClosePopup() {
+    
+  }
 }
