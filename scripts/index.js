@@ -10,18 +10,13 @@ const popUpProfile = document.querySelector('.popup_type_profile');
 const formProfile = document.forms['profile-data'];
 const inputName = popUpProfile.querySelector('#name-input');
 const inputActivity = popUpProfile.querySelector('#activity-input');
-// const btnEditProfile = popUpProfile.querySelector('.popup__button');
 const popUpCardEditor = document.querySelector('.popup_type_card-editor');
 const formCardEditor = document.forms['card-data'];
 const inputCardTitle = popUpCardEditor.querySelector('#card-title-input');
 const inputCardLink = popUpCardEditor.querySelector('#card-link-input');
-// const btnAddCard = popUpCardEditor.querySelector('.popup__button');
-// const popUpImage = document.querySelector('.popup_type_image');
-// const popUpImageElem = popUpImage.querySelector('.module__image');
-// const popUpImageCaption = popUpImage.querySelector('.module__caption');
-// const cardTemplate = document.querySelector('#card').content;
 const popUpsList = Array.from(document.querySelectorAll('.popup'));
 
+//Функция для запуска валидации форм
 const launchFormValidator = (config) => {
   const formList = Array.from(document.querySelectorAll(config.formSelector));
 
@@ -32,44 +27,6 @@ const launchFormValidator = (config) => {
 }
 
 launchFormValidator(setValidation);
-
-//Функция открытия увеличенной картинки в модальном окне
-// const showBigImage = (evt) => {
-//   makeImageInPopUP(evt.target.getAttribute('alt'), evt.target.getAttribute('src'));
-//   openPopUp(popUpImage);
-// }
-
-//Функция удаления карточки из коллекции
-// const deleteCard = (targetClass, evt) => {
-//   evt.target.closest(targetClass).remove();
-// }
-
-//Функция переключения состояния кнопки "like"
-// const handleBtnState = (stateClass, evt) => {
-//   evt.target.classList.toggle(stateClass);
-// }
-
-//Функция создания карточки с изображением и названием
-// const createCard = imageData => {
-//   const cardMarkup = cardTemplate.querySelector('.card').cloneNode(true);
-//   const cardImage = cardMarkup.querySelector('.card__image');
-//   const btnDeleteCard = cardMarkup.querySelector('.card__delete');
-//   const btnLikeCard = cardMarkup.querySelector('.card__like-btn');
-
-//   cardImage.src = imageData.link;
-//   cardImage.alt = imageData.name;
-//   cardMarkup.querySelector('.card__text').textContent = imageData.name;
-
-//   cardImage.addEventListener('click', showBigImage);
-//   btnDeleteCard.addEventListener('click', (evt) => {
-//     deleteCard('.card', evt);
-//   });
-//   btnLikeCard.addEventListener('click', (evt) =>{
-//     handleBtnState('card__like-btn_active', evt);
-//   });
-
-//   return cardMarkup;
-// }
 
 //Функция для создания начального набора карточек
 const makeInitialCardsSet = images => images.map((item) => {

@@ -1,7 +1,6 @@
 import { CLOSE_BTN } from './constants.js';
 
 export class Card {
-
   constructor(data, templateSelector) {
     this._link = data.link;
     this._text = data.name;
@@ -53,9 +52,9 @@ export class Card {
       evt.target.classList.contains('popup__close') || 
       evt.code === CLOSE_BTN) {
 
-      popUpImage.classList.remove('popup_opened');
-      popUpImage.removeEventListener('mousedown', this._handleClosePopup);
-      window.removeEventListener('keydown', this._handleClosePopup);
+    popUpImage.classList.remove('popup_opened');
+    popUpImage.removeEventListener('mousedown', this._handleClosePopup);
+    window.removeEventListener('keydown', this._handleClosePopup);
     }
   }
 
