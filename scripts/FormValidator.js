@@ -10,14 +10,12 @@ export class FormValidator {
   }
 
   _showInputError(errorElement, inputElement) {
-  
     inputElement.classList.add(this._inputErrorClass);
     errorElement.classList.add(this._errorClass);
     errorElement.textContent = inputElement.validationMessage;
   }
 
   _hideInputError (errorElement, inputElement) {
-  
     inputElement.classList.remove(this._inputErrorClass);
     errorElement.classList.remove(this._errorClass);
     errorElement.textContent = '';

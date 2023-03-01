@@ -43,7 +43,7 @@ const closePopUp = (popUp) => {
     window.removeEventListener('keydown', closeUnsubmittedPopUp);
   }
 
-  //Функция открытия увеличенной картинки в модальном окне
+//Функция открытия увеличенной картинки в модальном окне
 const showBigImage = (evt) => {
   makeImageInPopUP(evt.target.getAttribute('alt'), evt.target.getAttribute('src'));
   openPopUp(popUpImage);
