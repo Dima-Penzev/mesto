@@ -1,11 +1,12 @@
 export class FormValidator {
-  constructor(config, formElement) {
+  constructor(config, formElement, createInputsList) {
     this._inputSelector = config.inputSelector;
     this._submitButtonSelector = config.submitButtonSelector;
     this._inactiveButtonClass = config.inactiveButtonClass;
     this._inputErrorClass = config.inputErrorClass;
     this._errorClass = config.errorClass;
     this._formElement = formElement;
+    this._createInputsList = createInputsList;
   }
 
   _showInputError(errorElement, inputElement) {
@@ -58,7 +59,7 @@ export class FormValidator {
   }
 
   _setInputEventListener(formElement, buttonElement) {
-    const inputsList = Array.from(formElement.querySelectorAll(this._inputSelector));
+    const inputsList = this._createInputsList(formElement, this._inputSelector);
     this._toggleButtonState(inputsList, buttonElement);
   
     formElement.addEventListener('reset', () => {
