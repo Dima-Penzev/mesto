@@ -1,3 +1,6 @@
+import { initialCards, setValidation, CLOSE_BTN} from './constants.js';
+import  { Card }  from './Card.js';
+import { FormValidator } from './FormValidator.js';
 const editorBtn = document.querySelector('.user__edit');
 const userName = document.querySelector('.user__name');
 const userActivity = document.querySelector('.user__activity');
@@ -7,85 +10,23 @@ const popUpProfile = document.querySelector('.popup_type_profile');
 const formProfile = document.forms['profile-data'];
 const inputName = popUpProfile.querySelector('#name-input');
 const inputActivity = popUpProfile.querySelector('#activity-input');
-const btnEditProfile = popUpProfile.querySelector('.popup__button');
 const popUpCardEditor = document.querySelector('.popup_type_card-editor');
 const formCardEditor = document.forms['card-data'];
 const inputCardTitle = popUpCardEditor.querySelector('#card-title-input');
 const inputCardLink = popUpCardEditor.querySelector('#card-link-input');
-const btnAddCard = popUpCardEditor.querySelector('.popup__button');
 const popUpImage = document.querySelector('.popup_type_image');
 const popUpImageElem = popUpImage.querySelector('.module__image');
 const popUpImageCaption = popUpImage.querySelector('.module__caption');
-const cardTemplate = document.querySelector('#card').content;
 const popUpsList = Array.from(document.querySelectorAll('.popup'));
 
-//Функция открытия увеличенной картинки в модальном окне
-const showBigImage = (evt) => {
-  makeImageInPopUP(evt.target.getAttribute('alt'), evt.target.getAttribute('src'));
-  openPopUp(popUpImage);
+//Функция переключения состояния кнопки "like"
+const handleBtnState = (evt) => {
+  evt.target.classList.toggle('card__like-btn_active');
 }
 
 //Функция удаления карточки из коллекции
-const deleteCard = (targetClass, evt) => {
-  evt.target.closest(targetClass).remove();
-}
-
-//Функция переключения состояния кнопки "like"
-const handleBtnState = (stateClass, evt) => {
-  evt.target.classList.toggle(stateClass);
-}
-
-//Функция создания карточки с изображением и названием
-const createCard = imageData => {
-  const cardMarkup = cardTemplate.querySelector('.card').cloneNode(true);
-  const cardImage = cardMarkup.querySelector('.card__image');
-  const btnDeleteCard = cardMarkup.querySelector('.card__delete');
-  const btnLikeCard = cardMarkup.querySelector('.card__like-btn');
-
-  cardImage.src = imageData.link;
-  cardImage.alt = imageData.name;
-  cardMarkup.querySelector('.card__text').textContent = imageData.name;
-
-  cardImage.addEventListener('click', showBigImage);
-  btnDeleteCard.addEventListener('click', (evt) => {
-    deleteCard('.card', evt);
-  });
-  btnLikeCard.addEventListener('click', (evt) =>{
-    handleBtnState('card__like-btn_active', evt);
-  });
-
-  return cardMarkup;
-}
-
-//Функция для создания начального набора карточек
-const makeInitialCardsSet = images => images.map(createCard);
-
-const cardsList = makeInitialCardsSet(initialCards);
-cardsContainer.append(...cardsList);
-
-//Функция очистки содержания форм и ошибок
-const resetFormAndErrors = (form, config) => {
-  const { inputSelector } = config;
-  const inputsList = createInputsList(form, inputSelector);
-  
-  form.reset();
-  inputsList.forEach(input => {
-    const errorElement = form.querySelector(`.${input.id}-error`);
-    hideInputError(errorElement, input, config);
-  })
-};
-
-//Функция закрытия модального окна при нажатии на "Overlay", клавишу "Escape", крестик
-const closeUnsubmittedPopUp = (evt) => {
-  popUpsList.forEach(popUp => {
-
-    if(evt.target.classList.contains('popup') || 
-      evt.target.classList.contains('popup__close') || 
-      evt.code === CLOSE_BTN) {
-
-        closePopUp(popUp);
-      }
-  })
+const deleteCard = (evt) => {
+  evt.target.closest('.card').remove();
 }
 
 // Функция открытия модального окна
@@ -102,6 +43,74 @@ const closePopUp = (popUp) => {
     window.removeEventListener('keydown', closeUnsubmittedPopUp);
   }
 
+//Функция открытия увеличенной картинки в модальном окне
+const showBigImage = (evt) => {
+  makeImageInPopUP(evt.target.getAttribute('alt'), evt.target.getAttribute('src'));
+  openPopUp(popUpImage);
+}
+
+//Функция создания картинки с подписью в модальном окне
+const makeImageInPopUP = (name, link) => {
+  popUpImageElem.src = link;
+  popUpImageElem.alt = name;
+  popUpImageCaption.textContent = name;
+}
+
+//Функция для создания начального набора карточек
+const makeInitialCardsSet = images => images.map((item) => {
+  const card = new Card(item, '#card', handleBtnState, deleteCard, openPopUp, closePopUp, showBigImage, popUpImage);
+  const cardElement = card.generateCard();
+
+  return cardElement;
+});
+
+const cardsList = makeInitialCardsSet(initialCards);
+cardsContainer.append(...cardsList);
+
+//Функция создающая массив полей ввода формы
+const createInputsList = (form, inputClass) => {
+  return Array.from(form.querySelectorAll(inputClass));
+}
+
+//Функция для запуска валидации форм
+const launchFormValidator = (config) => {
+  const formList = Array.from(document.querySelectorAll(config.formSelector));
+
+  formList.forEach(formElement => {
+    const formValidator = new FormValidator(config, formElement, createInputsList);
+    formValidator.enableValidation();
+  })
+}
+
+launchFormValidator(setValidation);
+
+//Функция очистки содержания форм и ошибок
+const resetFormAndErrors = (form, config) => {
+  const { inputSelector, inputErrorClass, errorClass } = config;
+  const inputsList = createInputsList(form, inputSelector);
+  
+  form.reset();
+  inputsList.forEach(inputElement => {
+    const errorElement = form.querySelector(`.${inputElement.id}-error`);
+    inputElement.classList.remove(inputErrorClass);
+    errorElement.classList.remove(errorClass);
+    errorElement.textContent = '';
+  })
+};
+
+//Функция закрытия модального окна при нажатии на "Overlay", клавишу "Escape", крестик
+const closeUnsubmittedPopUp = (evt) => {
+  popUpsList.forEach(popUp => {
+
+    if(evt.target.classList.contains('popup') || 
+      evt.target.classList.contains('popup__close') || 
+      evt.code === CLOSE_BTN) {
+
+        closePopUp(popUp);
+      }
+  })
+}
+
 // Функция изменения данных о пользователе
 const handleFormSubmitProfile = () => {
   userName.textContent = inputName.value;
@@ -111,17 +120,11 @@ const handleFormSubmitProfile = () => {
 
 //Функция добавления карточки на страницу
 const addCardImage = () => {
-  const newCard = createCard({name: inputCardTitle.value, link: inputCardLink.value});
-  cardsContainer.prepend(newCard);
+  const newCard = new Card({name: inputCardTitle.value, link: inputCardLink.value}, '#card', handleBtnState, deleteCard, openPopUp, closePopUp, showBigImage, popUpImage);
+  const newCardElement = newCard.generateCard();
+  cardsContainer.prepend(newCardElement);
   closePopUp(popUpCardEditor);
   formCardEditor.reset();
-}
-
-//Функция создания картинки с подписью в модальном окне
-const makeImageInPopUP = (name, link) => {
-  popUpImageElem.src = link;
-  popUpImageElem.alt = name;
-  popUpImageCaption.textContent = name;
 }
 
 editorBtn.addEventListener('click', () => {

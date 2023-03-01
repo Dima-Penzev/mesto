@@ -35,3 +35,5 @@ const setValidation = {
 };
 
 const CLOSE_BTN = "Escape";
+
+export { initialCards, setValidation, CLOSE_BTN };
