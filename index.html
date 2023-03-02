@@ -1,91 +1,170 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./pages/index.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./pages/index.css" />
     <script defer type="module" src="./scripts/index.js"></script>
     <title>Место</title>
-</head>
-<body>
-  <div class="root">
-    <header class="header root__content">
-      <a class="header__link" href="#">
-        <img class="header__logo" src="./images/header-logo.svg" alt="Логотип-надпись место Россия">
-      </a>
-    </header>
-    <main class="content root__content">
+  </head>
+  <body>
+    <div class="root">
+      <header class="header root__content">
+        <a class="header__link" href="#">
+          <img
+            class="header__logo"
+            src="./images/header-logo.svg"
+            alt="Логотип-надпись место Россия"
+          />
+        </a>
+      </header>
+      <main class="content root__content">
         <section class="user">
-          <img class="user__photo" src="./images/kusto.jpg" alt="Фото пользователя">
-            <div class="user__edit-wrap">
-              <h1 class="user__name">Жак-Ив Кусто</h1>
-              <button class="user__edit" type="button" aria-label="редактировать"></button>
-            </div>
-            <p class="user__activity">Исследователь океана</p>
-          <button class="user__add-card" type="button" aria-label="добавить"></button>
+          <img
+            class="user__photo"
+            src="./images/kusto.jpg"
+            alt="Фото пользователя"
+          />
+          <div class="user__edit-wrap">
+            <h1 class="user__name">Жак-Ив Кусто</h1>
+            <button
+              class="user__edit"
+              type="button"
+              aria-label="редактировать"
+            ></button>
+          </div>
+          <p class="user__activity">Исследователь океана</p>
+          <button
+            class="user__add-card"
+            type="button"
+            aria-label="добавить"
+          ></button>
         </section>
         <section>
           <ul class="cards-container"></ul>
-      </section>
-    </main>
-    <footer class="footer root__content">
-      <p class="footer__text">&copy; 2023 Mesto Russia</p>
-    </footer>
-    <div class="popup popup_type_profile">
-      <div class="popup__container">
-        <button class="popup__close" type="button" aria-label="закрыть"></button>
-        <h2 class="popup__title">Редактировать профиль</h2>
-        <form class="popup__form" id="form-profile" name="profile-data" novalidate>
-          <div class="popup__input-container">
-            <input class="popup__input" id="name-input" type="text" name="username" placeholder="Имя" minlength="2" maxlength="40" required>
-            <span class="popup__error name-input-error"></span>
-          </div>          
-          <div class="popup__input-container">
-            <input class="popup__input" id="activity-input" type="text" name="activity" placeholder="О себе" minlength="2" maxlength="200" required>
-            <span class="popup__error activity-input-error"></span>
-          </div>          
-          <button class="popup__button" type="submit">Сохранить</button>
-        </form>
+        </section>
+      </main>
+      <footer class="footer root__content">
+        <p class="footer__text">&copy; 2023 Mesto Russia</p>
+      </footer>
+      <div class="popup popup_type_profile">
+        <div class="popup__container">
+          <button
+            class="popup__close"
+            type="button"
+            aria-label="закрыть"
+          ></button>
+          <h2 class="popup__title">Редактировать профиль</h2>
+          <form
+            class="popup__form"
+            id="form-profile"
+            name="profile-data"
+            novalidate
+          >
+            <div class="popup__input-container">
+              <input
+                class="popup__input"
+                id="name-input"
+                type="text"
+                name="username"
+                placeholder="Имя"
+                minlength="2"
+                maxlength="40"
+                required
+              />
+              <span class="popup__error name-input-error"></span>
+            </div>
+            <div class="popup__input-container">
+              <input
+                class="popup__input"
+                id="activity-input"
+                type="text"
+                name="activity"
+                placeholder="О себе"
+                minlength="2"
+                maxlength="200"
+                required
+              />
+              <span class="popup__error activity-input-error"></span>
+            </div>
+            <button class="popup__button" type="submit">Сохранить</button>
+          </form>
+        </div>
       </div>
-    </div>
-    <div class="popup popup_type_card-editor">
-      <div class="popup__container">
-        <button class="popup__close" type="button" aria-label="закрыть"></button>
-        <h2 class="popup__title">Новое место</h2>
-        <form class="popup__form" id="form-card-editor" name="card-data" novalidate>
-          <div class="popup__input-container">
-            <input class="popup__input" id="card-title-input" type="text" name="card-title" placeholder="Название" minlength="2" maxlength="30" required>
-            <span class="popup__error card-title-input-error"></span>
-          </div>          
-          <div class="popup__input-container">
-            <input class="popup__input" id="card-link-input" type="url" name="card-link" placeholder="Ссылка на картинку" required>
-            <span class="popup__error card-link-input-error"></span>
+      <div class="popup popup_type_card-editor">
+        <div class="popup__container">
+          <button
+            class="popup__close"
+            type="button"
+            aria-label="закрыть"
+          ></button>
+          <h2 class="popup__title">Новое место</h2>
+          <form
+            class="popup__form"
+            id="form-card-editor"
+            name="card-data"
+            novalidate
+          >
+            <div class="popup__input-container">
+              <input
+                class="popup__input"
+                id="card-title-input"
+                type="text"
+                name="card-title"
+                placeholder="Название"
+                minlength="2"
+                maxlength="30"
+                required
+              />
+              <span class="popup__error card-title-input-error"></span>
+            </div>
+            <div class="popup__input-container">
+              <input
+                class="popup__input"
+                id="card-link-input"
+                type="url"
+                name="card-link"
+                placeholder="Ссылка на картинку"
+                required
+              />
+              <span class="popup__error card-link-input-error"></span>
+            </div>
+            <button class="popup__button" type="submit">Создать</button>
+          </form>
+        </div>
+      </div>
+      <div class="popup popup_type_image">
+        <div class="popup__container popup__container_type_image">
+          <button
+            class="popup__close"
+            type="button"
+            aria-label="закрыть"
+          ></button>
+          <figure class="module">
+            <img class="module__image" src="#" alt="#" />
+            <figcaption class="module__caption"></figcaption>
+          </figure>
+        </div>
+      </div>
+      <template id="card">
+        <li class="card">
+          <button
+            class="card__delete"
+            type="button"
+            aria-label="удалить"
+          ></button>
+          <img class="card__image" src="#" alt="#" />
+          <div class="card__wrap">
+            <h2 class="card__text"></h2>
+            <button
+              class="card__like-btn"
+              type="button"
+              aria-label="нравится"
+            ></button>
           </div>
-          <button class="popup__button" type="submit">Создать</button>
-        </form>
-      </div>
+        </li>
+      </template>
     </div>
-    <div class="popup popup_type_image">
-      <div class="popup__container popup__container_type_image">
-        <button class="popup__close" type="button" aria-label="закрыть"></button>
-        <figure class="module">
-          <img class="module__image" src="#" alt="#">
-          <figcaption class="module__caption"></figcaption>
-        </figure>
-      </div>
-    </div>
-    <template id="card">
-      <li class="card">
-        <button class="card__delete" type="button" aria-label="удалить"></button>
-        <img class="card__image" src="#" alt="#">
-      <div class="card__wrap">
-        <h2 class="card__text"></h2>
-        <button class="card__like-btn" type="button" aria-label="нравится">
-        </button>
-      </div>
-    </li>
-    </template>
-  </div>
-</body>
+  </body>
 </html>
