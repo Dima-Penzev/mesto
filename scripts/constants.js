@@ -34,6 +34,6 @@ const setValidation = {
   errorClass: 'popup__error_visible',
 };
 
-const CLOSE_BTN = "Escape";
+const BUTTONESC_KEY = "Escape";
 
-export { initialCards, setValidation, CLOSE_BTN };
+export { initialCards, setValidation, BUTTONESC_KEY };
