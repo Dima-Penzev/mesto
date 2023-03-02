@@ -18,6 +18,9 @@ const popUpImage = document.querySelector(".popup_type_image");
 const popUpImageElem = popUpImage.querySelector(".module__image");
 const popUpImageCaption = popUpImage.querySelector(".module__caption");
 const popUpsList = Array.from(document.querySelectorAll(".popup"));
+const formList = Array.from(
+  document.querySelectorAll(setValidation.formSelector)
+);
 
 // Функция открытия модального окна
 const openPopUp = (popUp) => {
@@ -57,23 +60,34 @@ const createCard = (item) => {
   return cardElement;
 };
 
-//Функция для создания начального набора карточек
-const makeInitialCardsSet = (images) => images.map((item) => createCard(item));
+//Функция добавления карточки в контейнер
+const putCardInContainer = (card) => {
+  cardsContainer.prepend(card);
+};
 
-const cardsList = makeInitialCardsSet(initialCards);
-cardsContainer.append(...cardsList);
+//Функция для создания начального набора карточек
+const makeInitialCardsSet = () =>
+  initialCards.map((item) => {
+    const card = createCard(item);
+    putCardInContainer(card);
+  });
+
+makeInitialCardsSet();
+
+//Функция создания валидарора форм
+const createFormValidator = (formElement) => {
+  return new FormValidator(setValidation, formElement);
+};
 
 //Функция для запуска валидации форм
-const launchFormValidator = (config) => {
-  const formList = Array.from(document.querySelectorAll(config.formSelector));
-
+const launchFormValidator = () => {
   formList.forEach((formElement) => {
-    const formValidator = new FormValidator(config, formElement);
+    const formValidator = createFormValidator(formElement);
     formValidator.enableValidation();
   });
 };
 
-launchFormValidator(setValidation);
+launchFormValidator();
 
 //Функция закрытия модального окна при нажатии на "Overlay", клавишу "Escape", крестик
 const closeUnsubmittedPopUp = (evt) => {
@@ -101,13 +115,13 @@ const addCardImage = () => {
     name: inputCardTitle.value,
     link: inputCardLink.value,
   });
-  cardsContainer.prepend(newCardElement);
+  putCardInContainer(newCardElement);
   closePopUp(popUpCardEditor);
   formCardEditor.reset();
 };
 
 editorBtn.addEventListener("click", () => {
-  const formValidator = new FormValidator(setValidation, formProfile);
+  const formValidator = createFormValidator(formProfile);
   formValidator.resetErrors();
   openPopUp(popUpProfile);
   inputName.value = userName.textContent;
