@@ -1,4 +1,4 @@
-import { initialCards, setValidation, BUTTONESC_KEY } from "./constants.js";
+import { initialCards, setValidation, BUTTON_ESC_KEY } from "./constants.js";
 import { Card } from "./Card.js";
 import { FormValidator } from "./FormValidator.js";
 const editorBtn = document.querySelector(".user__edit");
@@ -18,9 +18,14 @@ const popUpImage = document.querySelector(".popup_type_image");
 const popUpImageElem = popUpImage.querySelector(".module__image");
 const popUpImageCaption = popUpImage.querySelector(".module__caption");
 const popUpsList = Array.from(document.querySelectorAll(".popup"));
-const formList = Array.from(
-  document.querySelectorAll(setValidation.formSelector)
+const formProfileValidator = new FormValidator(setValidation, formProfile);
+const formCardEditorValidator = new FormValidator(
+  setValidation,
+  formCardEditor
 );
+
+formProfileValidator.enableValidation();
+formCardEditorValidator.enableValidation();
 
 // Функция открытия модального окна
 const openPopUp = (popUp) => {
@@ -44,11 +49,8 @@ const makeImageInPopUP = (name, link) => {
 };
 
 //Функция открытия увеличенной картинки в модальном окне
-const showBigImage = (evt) => {
-  makeImageInPopUP(
-    evt.target.getAttribute("alt"),
-    evt.target.getAttribute("src")
-  );
+const showBigImage = (name, link) => {
+  makeImageInPopUP(name, link);
   openPopUp(popUpImage);
 };
 
@@ -74,28 +76,13 @@ const makeInitialCardsSet = () =>
 
 makeInitialCardsSet();
 
-//Функция создания валидарора форм
-const createFormValidator = (formElement) => {
-  return new FormValidator(setValidation, formElement);
-};
-
-//Функция для запуска валидации форм
-const launchFormValidator = () => {
-  formList.forEach((formElement) => {
-    const formValidator = createFormValidator(formElement);
-    formValidator.enableValidation();
-  });
-};
-
-launchFormValidator();
-
 //Функция закрытия модального окна при нажатии на "Overlay", клавишу "Escape", крестик
 const closeUnsubmittedPopUp = (evt) => {
   popUpsList.forEach((popUp) => {
     if (
       evt.target.classList.contains("popup") ||
       evt.target.classList.contains("popup__close") ||
-      evt.code === BUTTONESC_KEY
+      evt.code === BUTTON_ESC_KEY
     ) {
       closePopUp(popUp);
     }
@@ -121,8 +108,7 @@ const addCardImage = () => {
 };
 
 editorBtn.addEventListener("click", () => {
-  const formValidator = createFormValidator(formProfile);
-  formValidator.resetErrors();
+  formProfileValidator.resetErrors();
   openPopUp(popUpProfile);
   inputName.value = userName.textContent;
   inputActivity.value = userActivity.textContent;

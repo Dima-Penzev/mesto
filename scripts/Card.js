@@ -28,20 +28,26 @@ export class Card {
   }
 
   _setEventListeners() {
-    this._cardImage.addEventListener("click", this._showBigImage);
-    this._element
-      .querySelector(".card__like-btn")
-      .addEventListener("click", this._handleLikeBtn);
+    this._buttonLike = this._element.querySelector(".card__like-btn");
+
+    this._buttonLike.addEventListener("click", () => {
+      this._handleLikeBtn();
+    });
+    this._cardImage.addEventListener("click", () => {
+      this._showBigImage(this._text, this._link);
+    });
     this._element
       .querySelector(".card__delete")
-      .addEventListener("click", this._deleteCard);
+      .addEventListener("click", () => {
+        this._deleteCard();
+      });
   }
 
-  _handleLikeBtn(evt) {
-    evt.target.classList.toggle("card__like-btn_active");
+  _handleLikeBtn() {
+    this._buttonLike.classList.toggle("card__like-btn_active");
   }
 
-  _deleteCard(evt) {
-    evt.target.closest(".card").remove();
+  _deleteCard() {
+    this._element.remove();
   }
 }
