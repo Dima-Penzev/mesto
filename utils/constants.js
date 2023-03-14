@@ -33,7 +33,7 @@ const setValidation = {
   inputErrorClass: "popup__input_type_error",
   errorClass: "popup__error_visible",
 };
-
+const containerSelector = ".cards-container";
 const BUTTON_ESC_KEY = "Escape";
 
-export { initialCards, setValidation, BUTTON_ESC_KEY };
+export { initialCards, setValidation, containerSelector, BUTTON_ESC_KEY };

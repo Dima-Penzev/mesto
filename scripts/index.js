@@ -1,10 +1,17 @@
-import { initialCards, setValidation, BUTTON_ESC_KEY } from "./constants.js";
-import { Card } from "./Card.js";
-import { FormValidator } from "./FormValidator.js";
+import {
+  initialCards,
+  setValidation,
+  containerSelector,
+  BUTTON_ESC_KEY,
+} from "../utils/constants.js";
+import { Card } from "../components/Card.js";
+import { FormValidator } from "../components/FormValidator.js";
+import Section from "../components/Section.js";
+import PopupWithImage from "../components/PopupWithImage.js";
 const editorBtn = document.querySelector(".user__edit");
 const userName = document.querySelector(".user__name");
 const userActivity = document.querySelector(".user__activity");
-const cardsContainer = document.querySelector(".cards-container");
+// const cardsContainer = document.querySelector(".cards-container");
 const btnAddCard = document.querySelector(".user__add-card");
 const popUpProfile = document.querySelector(".popup_type_profile");
 const formProfile = document.forms["profile-data"];
@@ -14,9 +21,9 @@ const popUpCardEditor = document.querySelector(".popup_type_card-editor");
 const formCardEditor = document.forms["card-data"];
 const inputCardTitle = popUpCardEditor.querySelector("#card-title-input");
 const inputCardLink = popUpCardEditor.querySelector("#card-link-input");
-const popUpImage = document.querySelector(".popup_type_image");
-const popUpImageElem = popUpImage.querySelector(".module__image");
-const popUpImageCaption = popUpImage.querySelector(".module__caption");
+// const popUpImage = document.querySelector(".popup_type_image");
+// const popUpImageElem = popUpImage.querySelector(".module__image");
+// const popUpImageCaption = popUpImage.querySelector(".module__caption");
 const popUpsList = Array.from(document.querySelectorAll(".popup"));
 const formProfileValidator = new FormValidator(setValidation, formProfile);
 const formCardEditorValidator = new FormValidator(
@@ -27,12 +34,14 @@ const formCardEditorValidator = new FormValidator(
 formProfileValidator.enableValidation();
 formCardEditorValidator.enableValidation();
 
+const popupImage = new PopupWithImage(".popup_type_image");
+
 // Функция открытия модального окна
-const openPopUp = (popUp) => {
-  popUp.classList.add("popup_opened");
-  popUp.addEventListener("mousedown", closeUnsubmittedPopUp);
-  window.addEventListener("keydown", closeUnsubmittedPopUp);
-};
+// const openPopUp = (popUp) => {
+//   popUp.classList.add("popup_opened");
+//   popUp.addEventListener("mousedown", closeUnsubmittedPopUp);
+//   window.addEventListener("keydown", closeUnsubmittedPopUp);
+// };
 
 // Функция закрытия модального окна
 const closePopUp = (popUp) => {
@@ -42,39 +51,52 @@ const closePopUp = (popUp) => {
 };
 
 //Функция создания картинки с подписью в модальном окне
-const makeImageInPopUP = (name, link) => {
-  popUpImageElem.src = link;
-  popUpImageElem.alt = name;
-  popUpImageCaption.textContent = name;
-};
+// const makeImageInPopUP = (name, link) => {
+//   popUpImageElem.src = link;
+//   popUpImageElem.alt = name;
+//   popUpImageCaption.textContent = name;
+// };
 
 //Функция открытия увеличенной картинки в модальном окне
-const showBigImage = (name, link) => {
-  makeImageInPopUP(name, link);
-  openPopUp(popUpImage);
-};
+// const showBigImage = (name, link) => {
+//   makeImageInPopUP(name, link);
+//   openPopUp(popUpImage);
+// };
 
 //Функция создания элемента-карточки
 const createCard = (item) => {
-  const card = new Card(item, "#card", showBigImage);
+  const card = new Card(item, "#card", popupImage.open.bind(popupImage));
   const cardElement = card.generateCard();
 
   return cardElement;
 };
 
+const initialCardsList = new Section(
+  {
+    items: initialCards,
+    renderer: (item) => {
+      const cardElement = createCard(item);
+      initialCardsList.addItem(cardElement);
+    },
+  },
+  containerSelector
+);
+
+initialCardsList.renderItems();
+
 //Функция добавления карточки в контейнер
-const putCardInContainer = (card) => {
-  cardsContainer.prepend(card);
-};
+// const putCardInContainer = (card) => {
+//   cardsContainer.prepend(card);
+// };
 
 //Функция для создания начального набора карточек
-const makeInitialCardsSet = () =>
-  initialCards.map((item) => {
-    const card = createCard(item);
-    putCardInContainer(card);
-  });
+// const makeInitialCardsSet = () =>
+//   initialCards.map((item) => {
+//     const card = createCard(item);
+//     putCardInContainer(card);
+//   });
 
-makeInitialCardsSet();
+// makeInitialCardsSet();
 
 //Функция закрытия модального окна при нажатии на "Overlay", клавишу "Escape", крестик
 const closeUnsubmittedPopUp = (evt) => {
@@ -102,7 +124,7 @@ const addCardImage = () => {
     name: inputCardTitle.value,
     link: inputCardLink.value,
   });
-  putCardInContainer(newCardElement);
+  initialCardsList.addItem(newCardElement);
   closePopUp(popUpCardEditor);
   formCardEditor.reset();
 };
