@@ -34,6 +34,13 @@ const setValidation = {
   errorClass: "popup__error_visible",
 };
 const containerSelector = ".cards-container";
+const popupImageSelector = ".popup_type_image";
 const BUTTON_ESC_KEY = "Escape";
 
-export { initialCards, setValidation, containerSelector, BUTTON_ESC_KEY };
+export {
+  initialCards,
+  setValidation,
+  containerSelector,
+  popupImageSelector,
+  BUTTON_ESC_KEY,
+};

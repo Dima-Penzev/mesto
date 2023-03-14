@@ -1,9 +1,9 @@
 export class Card {
-  constructor(data, templateSelector, showBigImage) {
-    this._link = data.link;
-    this._text = data.name;
+  constructor(item, templateSelector, handleCardClick) {
+    this._link = Object.values(item)[1];
+    this._text = Object.values(item)[0];
     this._templateSelector = templateSelector;
-    this._showBigImage = showBigImage;
+    this._handleCardClick = handleCardClick;
   }
 
   _getTemplate() {
@@ -34,7 +34,7 @@ export class Card {
       this._handleLikeBtn();
     });
     this._cardImage.addEventListener("click", () => {
-      this._showBigImage(this._text, this._link);
+      this._handleCardClick(this._text, this._link);
     });
     this._element
       .querySelector(".card__delete")
