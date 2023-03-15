@@ -35,12 +35,32 @@ const setValidation = {
 };
 const containerSelector = ".cards-container";
 const popupImageSelector = ".popup_type_image";
+const userNameSelector = ".user__name";
+const userActivitySelector = ".user__activity";
+const popUpCardEditorSelector = ".popup_type_card-editor";
+const popUpProfileSelector = ".popup_type_profile";
 const BUTTON_ESC_KEY = "Escape";
+const editorBtn = document.querySelector(".user__edit");
+const btnAddCard = document.querySelector(".user__add-card");
+const formProfile = document.forms["profile-data"];
+const formCardEditor = document.forms["card-data"];
+const inputName = document.querySelector("#name-input");
+const inputActivity = document.querySelector("#activity-input");
 
 export {
   initialCards,
   setValidation,
   containerSelector,
   popupImageSelector,
+  userNameSelector,
+  userActivitySelector,
+  popUpCardEditorSelector,
+  popUpProfileSelector,
   BUTTON_ESC_KEY,
+  editorBtn,
+  btnAddCard,
+  formProfile,
+  formCardEditor,
+  inputName,
+  inputActivity,
 };

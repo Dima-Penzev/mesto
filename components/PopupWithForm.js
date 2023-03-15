@@ -4,7 +4,6 @@ export default class PopupWithForm extends Popup {
   constructor({ popupSelector, handleFormSubmit }) {
     super(popupSelector);
     this._hadleFormSubmit = handleFormSubmit;
-    this._popupForm = this._popup.querySelector(".popup__form");
   }
 
   _getInputValues() {
@@ -17,17 +16,18 @@ export default class PopupWithForm extends Popup {
     return this._formValues;
   }
 
+  setEventListeners() {
+    super.setEventListeners();
+    this._popupForm = this._popup.querySelector(".popup__form");
+
+    this._popupForm.addEventListener("submit", (evt) => {
+      evt.preventDefault();
+      this._hadleFormSubmit(this._getInputValues());
+    });
+  }
+
   close() {
     super.close();
     this._popupForm.reset();
-  }
-
-  setEventListeners() {
-    super.setEventListeners();
-    this._popupForm.addEventListener("submit", (evt) => {
-      evt.preventDefault();
-      console.log(this._getInputValues());
-      this._hadleFormSubmit(this._getInputValues());
-    });
   }
 }
