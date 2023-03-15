@@ -1,0 +1,38 @@
+{
+  "name": "mesto",
+  "version": "1.0.0",
+  "description": "Многие из нас любят путешествовать. При этом мы стараемся запечатлеть интересные и красивые места на наши смартфоны или иные девайсы. Благо, современные технологии позволяют нам это делать. Но также мы хотим делиться своими впечатлениями с другими людьми. Поэтому нами был создан проект \"Место\". Он преставляет собой сервис, который дает своим пользователям возможность загружать фото посещенных мест. Сервис позволяет создать профиль пользователя, а именно, указать имя, род деятельности и загрузить его фото. Далее в этом приложении пользователь может добавлять карточки с фотографиями и описание к ним. В свою очередь другие пользователи, зайдя в чей либо профиль, могут помечать понравившиеся фото, нажав на символ \"сердце\" в правом нижнем углу карточки.",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --mode production",
+    "dev": "webpack serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dima-Penzev/mesto.git"
+  },
+  "author": "Dmitrii Penzev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dima-Penzev/mesto/issues"
+  },
+  "homepage": "https://github.com/Dima-Penzev/mesto#readme",
+  "devDependencies": {
+    "@babel/core": "^7.21.3",
+    "@babel/preset-env": "^7.20.2",
+    "autoprefixer": "^10.4.14",
+    "babel-loader": "^9.1.2",
+    "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^6.7.3",
+    "cssnano": "^5.1.15",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.7.3",
+    "postcss-loader": "^7.0.2",
+    "webpack": "^5.76.1",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.12.0"
+  },
+  "dependencies": {
+    "core-js": "^3.29.1"
+  }
+}

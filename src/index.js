@@ -1,3 +1,4 @@
+import "./pages/index.css";
 import {
   initialCards,
   setValidation,
@@ -13,27 +14,19 @@ import {
   formCardEditor,
   inputName,
   inputActivity,
-} from "../utils/constants.js";
-import Card from "../components/Card.js";
-import FormValidator from "../components/FormValidator.js";
-import Section from "../components/Section.js";
-import PopupWithImage from "../components/PopupWithImage.js";
-import PopupWithForm from "../components/PopupWithForm.js";
-import UserInfo from "../components/UserInfo.js";
-
-//Функция создания элемента-карточки
-const createCard = (item) => {
-  const card = new Card(item, "#card", popupImage.open.bind(popupImage));
-  const cardElement = card.generateCard();
-
-  return cardElement;
-};
+} from "./utils/constants.js";
+import FormValidator from "./components/FormValidator.js";
+import Section from "./components/Section.js";
+import PopupWithImage from "./components/PopupWithImage.js";
+import PopupWithForm from "./components/PopupWithForm.js";
+import UserInfo from "./components/UserInfo.js";
+import createCard from "./utils/utils.js";
 
 const initialCardsList = new Section(
   {
     items: initialCards,
     renderer: (item) => {
-      const cardElement = createCard(item);
+      const cardElement = createCard(item, popupImage.open.bind(popupImage));
       initialCardsList.addItem(cardElement);
     },
   },
@@ -56,7 +49,7 @@ const popupImage = new PopupWithImage(popupImageSelector);
 const popUpCardEditor = new PopupWithForm({
   popupSelector: popUpCardEditorSelector,
   handleFormSubmit: (item) => {
-    const newCardElement = createCard(item);
+    const newCardElement = createCard(item, popupImage.open.bind(popupImage));
     initialCardsList.addItem(newCardElement);
     popUpCardEditor.close();
   },
@@ -70,12 +63,12 @@ const popUpProfile = new PopupWithForm({
   },
 });
 
+initialCardsList.renderItems();
 formProfileValidator.enableValidation();
 formCardEditorValidator.enableValidation();
 popupImage.setEventListeners();
 popUpCardEditor.setEventListeners();
 popUpProfile.setEventListeners();
-initialCardsList.renderItems();
 
 editorBtn.addEventListener("click", () => {
   formProfileValidator.resetErrors();
