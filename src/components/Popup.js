@@ -1,8 +1,7 @@
-import { BUTTON_ESC_KEY } from "../utils/constants.js";
-
 export default class Popup {
-  constructor(popupSelector) {
+  constructor(popupSelector, buttonCloseKey) {
     this._popup = document.querySelector(popupSelector);
+    this._buttonCloseKey = buttonCloseKey;
   }
 
   open() {
@@ -16,7 +15,7 @@ export default class Popup {
   }
 
   _handleEscClose = (evt) => {
-    if (evt.code === BUTTON_ESC_KEY) {
+    if (evt.code === this._buttonCloseKey) {
       this.close();
     }
   };

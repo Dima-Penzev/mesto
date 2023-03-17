@@ -8,12 +8,11 @@ import {
   userActivitySelector,
   popUpCardEditorSelector,
   popUpProfileSelector,
+  BUTTON_ESC_KEY,
   editorBtn,
   btnAddCard,
   formProfile,
   formCardEditor,
-  inputName,
-  inputActivity,
 } from "../utils/constants.js";
 import FormValidator from "../components/FormValidator.js";
 import Section from "../components/Section.js";
@@ -44,24 +43,30 @@ const user = new UserInfo({
   userActivitySelector,
 });
 
-const popupImage = new PopupWithImage(popupImageSelector);
+const popupImage = new PopupWithImage(popupImageSelector, BUTTON_ESC_KEY);
 
-const popUpCardEditor = new PopupWithForm({
-  popupSelector: popUpCardEditorSelector,
-  handleFormSubmit: (item) => {
-    const newCardElement = createCard(item, popupImage.open.bind(popupImage));
-    initialCardsList.addItem(newCardElement);
-    popUpCardEditor.close();
+const popUpCardEditor = new PopupWithForm(
+  {
+    popupSelector: popUpCardEditorSelector,
+    handleFormSubmit: (item) => {
+      const newCardElement = createCard(item, popupImage.open.bind(popupImage));
+      initialCardsList.addItem(newCardElement);
+      popUpCardEditor.close();
+    },
   },
-});
+  BUTTON_ESC_KEY
+);
 
-const popUpProfile = new PopupWithForm({
-  popupSelector: popUpProfileSelector,
-  handleFormSubmit: (item) => {
-    user.setUserInfo(item);
-    popUpProfile.close();
+const popUpProfile = new PopupWithForm(
+  {
+    popupSelector: popUpProfileSelector,
+    handleFormSubmit: (item) => {
+      user.setUserInfo(item);
+      popUpProfile.close();
+    },
   },
-});
+  BUTTON_ESC_KEY
+);
 
 initialCardsList.renderItems();
 formProfileValidator.enableValidation();
@@ -71,11 +76,10 @@ popUpCardEditor.setEventListeners();
 popUpProfile.setEventListeners();
 
 editorBtn.addEventListener("click", () => {
+  const userInfo = user.getUserInfo();
   formProfileValidator.resetErrors();
   popUpProfile.open();
-  const userInfo = user.getUserInfo();
-  inputName.value = userInfo.username;
-  inputActivity.value = userInfo.activity;
+  popUpProfile.setInputValues(userInfo);
 });
 btnAddCard.addEventListener("click", () => {
   formCardEditorValidator.resetErrors();

@@ -44,8 +44,6 @@ const editorBtn = document.querySelector(".user__edit");
 const btnAddCard = document.querySelector(".user__add-card");
 const formProfile = document.forms["profile-data"];
 const formCardEditor = document.forms["card-data"];
-const inputName = document.querySelector("#name-input");
-const inputActivity = document.querySelector("#activity-input");
 
 export {
   initialCards,
@@ -61,6 +59,4 @@ export {
   btnAddCard,
   formProfile,
   formCardEditor,
-  inputName,
-  inputActivity,
 };
