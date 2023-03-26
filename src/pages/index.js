@@ -45,24 +45,6 @@ const initialCardsList = new Section(
   containerSelector
 );
 
-api
-  .getInitialCards()
-  .then((data) => {
-    initialCardsList.renderItems(data);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
-api
-  .getUserInfo()
-  .then((data) => {
-    console.log(data);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
 const formProfileValidator = new FormValidator(setValidation, formProfile);
 const formCardEditorValidator = new FormValidator(
   setValidation,
@@ -80,9 +62,22 @@ const popUpCardEditor = new PopupWithForm(
   {
     popupSelector: popUpCardEditorSelector,
     handleFormSubmit: (item) => {
-      const newCardElement = createCard(item, popupImage.open.bind(popupImage));
-      initialCardsList.addItem(newCardElement);
-      popUpCardEditor.close();
+      api
+        .addNewCard(item)
+        .then((res) => {
+          console.log(res);
+          const newCardElement = createCard(
+            res,
+            popupImage.open.bind(popupImage)
+          );
+          initialCardsList.addItem(newCardElement);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          popUpCardEditor.close();
+        });
     },
   },
   BUTTON_ESC_KEY
@@ -92,14 +87,43 @@ const popUpProfile = new PopupWithForm(
   {
     popupSelector: popUpProfileSelector,
     handleFormSubmit: (item) => {
-      user.setUserInfo(item);
+      api
+        .setUserInfo(item)
+        .then(({ name, about }) => {
+          user.setUserInfo({ username: name, activity: about });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       popUpProfile.close();
     },
   },
   BUTTON_ESC_KEY
 );
 
-// initialCardsList.renderItems();
+//////////////////////////////////////////////
+
+api
+  .getInitialCards()
+  .then((data) => {
+    console.log(data);
+    initialCardsList.renderItems(data);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+api
+  .getUserInfo()
+  .then((data) => {
+    console.log(data);
+    user.setUserInfo({ username: data.name, activity: data.about });
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+//////////////////////////////////////////////
 formProfileValidator.enableValidation();
 formCardEditorValidator.enableValidation();
 popupImage.setEventListeners();
