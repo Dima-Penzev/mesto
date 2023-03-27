@@ -38,24 +38,20 @@ const initialCardsList = new Section(
   {
     // items: initialCards,
     renderer: (item) => {
-      const cardElement = createCard(
-        item,
-        popupImage.open.bind(popupImage),
-        (evt) => {
-          console.log(user.getUserInfo().user_id);
-          console.log(evt.target.parentNode.getAttribute("user_id"));
-          console.log(evt.target.parentNode.getAttribute("card_id"));
-          const userIdInBase = user.getUserInfo().user_id;
-          const userIdOnCard = evt.target.parentNode.getAttribute("user_id");
-          const cardId = evt.target.parentNode.getAttribute("card_id");
-
-          if (userIdInBase === userIdOnCard) {
-            api.deleteCard(cardId);
-          } else {
-            return;
-          }
-        }
-      );
+      const cardElement = createCard(item, {
+        userIdInBase: user.getUserInfo().user_id,
+        handleCardClick: popupImage.open.bind(popupImage),
+        handleCardDelete: (cardId) => {
+          api
+            .deleteCard(cardId)
+            .then((res) => {
+              console.log(res);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        },
+      });
       initialCardsList.addItem(cardElement);
     },
   },
@@ -82,11 +78,20 @@ const popUpCardEditor = new PopupWithForm(
       api
         .addNewCard(item)
         .then((res) => {
-          console.log(res);
-          const newCardElement = createCard(
-            res,
-            popupImage.open.bind(popupImage)
-          );
+          const newCardElement = createCard(res, {
+            userIdInBase: user.getUserInfo().user_id,
+            handleCardClick: popupImage.open.bind(popupImage),
+            handleCardDelete: (cardId) => {
+              api
+                .deleteCard(cardId)
+                .then((res) => {
+                  console.log(res);
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            },
+          });
           initialCardsList.addItem(newCardElement);
         })
         .catch((err) => {
@@ -123,7 +128,7 @@ const popUpProfile = new PopupWithForm(
 api
   .getInitialCards()
   .then((data) => {
-    console.log(data);
+    // console.log(data);
     initialCardsList.renderItems(data);
   })
   .catch((err) => {
@@ -133,7 +138,7 @@ api
 api
   .getUserInfo()
   .then((data) => {
-    console.log(data);
+    // console.log(data);
     user.setUserInfo({
       username: data.name,
       activity: data.about,
