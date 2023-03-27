@@ -1,9 +1,12 @@
 export default class Card {
-  constructor(data, templateSelector, handleCardClick) {
+  constructor(data, templateSelector, handleCardClick, handleCardDelete) {
     this._link = data.link;
     this._text = data.name;
+    this._cardId = data._id;
+    this._userId = data.owner._id;
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
+    this._handleCardDelete = handleCardDelete;
   }
 
   _getTemplate() {
@@ -18,6 +21,8 @@ export default class Card {
   generateCard() {
     this._element = this._getTemplate();
 
+    this._element.setAttribute("card_id", this._cardId);
+    this._element.setAttribute("user_id", this._userId);
     this._cardImage = this._element.querySelector(".card__image");
     this._cardImage.src = this._link;
     this._cardImage.alt = this._text;
@@ -38,8 +43,15 @@ export default class Card {
     });
     this._element
       .querySelector(".card__delete")
-      .addEventListener("click", () => {
-        this._deleteCard();
+      .addEventListener("click", (evt) => {
+        this._handleCardDelete(evt)
+          .then((res) => {
+            this._deleteCard();
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       });
   }
 
