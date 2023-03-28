@@ -2,13 +2,14 @@ import Card from "../components/Card.js";
 
 const createCard = (
   item,
-  { userIdInBase, handleCardClick, handleCardDelete }
+  { userIdInBase, handleCardClick, handleAddLike, handleCardDelete }
 ) => {
   const card = new Card(
     item,
     "#card",
     userIdInBase,
     handleCardClick,
+    handleAddLike,
     handleCardDelete
   );
   const cardElement = card.generateCard();
