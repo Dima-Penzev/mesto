@@ -19,11 +19,18 @@
       </header>
       <main class="content root__content">
         <section class="user">
-          <img
-            class="user__photo"
-            src="<%=require('./images/kusto.jpg')%>"
-            alt="Фото пользователя"
-          />
+          <div class="user__photo-wrap">
+            <img
+              class="user__photo"
+              src="<%=require('./images/kusto.jpg')%>"
+              alt="Фото пользователя"
+            />
+            <button
+              class="user__photo-edit"
+              type="button"
+              aria-label="заменить фото пользователя"
+            ></button>
+          </div>
           <div class="user__edit-wrap">
             <h1 class="user__name"></h1>
             <button

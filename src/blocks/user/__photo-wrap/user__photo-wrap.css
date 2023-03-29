@@ -1,0 +1,4 @@
+.user__photo-wrap {
+  position: relative;
+  grid-area: photo;
+}

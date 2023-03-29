@@ -11,8 +11,8 @@
     display: grid;
     grid-template-columns: auto auto 1fr auto;
     align-items: center;
-    grid-template-areas: 
-    "photo title . add"
-    "photo activity . add";
+    grid-template-areas:
+      "photo title . add"
+      "photo activity . add";
   }
 }

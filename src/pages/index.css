@@ -9,7 +9,9 @@
 
 @import url(../blocks/content/content.css);
 @import url(../blocks/user/user.css);
+@import url(../blocks/user/__photo-wrap/user__photo-wrap.css);
 @import url(../blocks/user/__photo/user__photo.css);
+@import url(../blocks/user/__photo-edit/user__photo-edit.css);
 @import url(../blocks/user/__name/user__name.css);
 @import url(../blocks/user/__activity/user__activity.css);
 @import url(../blocks/user/__edit/user__edit.css);

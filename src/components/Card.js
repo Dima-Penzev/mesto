@@ -4,7 +4,7 @@ export default class Card {
     templateSelector,
     userIdInBase,
     handleCardClick,
-    handleAddLike,
+    handleIpLike,
     handleCardDelete
   ) {
     this._link = data.link;
@@ -15,7 +15,7 @@ export default class Card {
     this._templateSelector = templateSelector;
     this._userIdInBase = userIdInBase;
     this._handleCardClick = handleCardClick;
-    this._handleAddLike = handleAddLike;
+    this._handleIpLike = handleIpLike;
     this._handleCardDelete = handleCardDelete;
   }
 
@@ -44,7 +44,6 @@ export default class Card {
     this._element.querySelector(".card__text").textContent = this._text;
 
     this._likes.forEach((like) => {
-      console.log(like._id === this._userIdInBase);
       if (like._id === this._userIdInBase) {
         this._handleLikeBtn();
       }
@@ -60,12 +59,18 @@ export default class Card {
 
   _setEventListeners() {
     this._buttonLike.addEventListener("click", () => {
+      if (this._buttonLike.classList.contains("card__like-btn_active")) {
+        this._handleIpLike(this._cardId, this._elementLikesAmount, true);
+      } else {
+        this._handleIpLike(this._cardId, this._elementLikesAmount, false);
+      }
       this._handleLikeBtn();
-      this._handleAddLike(this._cardId, this._elementLikesAmount);
     });
+
     this._cardImage.addEventListener("click", () => {
       this._handleCardClick(this._text, this._link);
     });
+
     this._buttonDeleteCard.addEventListener("click", () => {
       if (this._userIdInBase === this._element.getAttribute("user_id")) {
         this._handleCardDelete(

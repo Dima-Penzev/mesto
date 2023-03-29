@@ -1,6 +1,5 @@
 import "./index.css";
 import {
-  initialCards,
   setValidation,
   containerSelector,
   popupImageSelector,
@@ -42,16 +41,14 @@ const popupConfirm = new PopupWithConfirmation(
 
 const initialCardsList = new Section(
   {
-    // items: initialCards,
     renderer: (item) => {
       const cardElement = createCard(item, {
         userIdInBase: user.getUserInfo().user_id,
         handleCardClick: popupImage.open.bind(popupImage),
-        handleAddLike: (cardId, elementLikesAmount) => {
+        handleIpLike: (cardId, elementLikesAmount, likesState) => {
           api
-            .addLike(cardId)
+            .handleLikeCounter(cardId, likesState)
             .then((res) => {
-              console.log(res);
               elementLikesAmount.textContent = res.likes.length;
             })
             .catch((err) => {
@@ -102,8 +99,15 @@ const popUpCardEditor = new PopupWithForm(
           const newCardElement = createCard(res, {
             userIdInBase: user.getUserInfo().user_id,
             handleCardClick: popupImage.open.bind(popupImage),
-            handleAddLike: (cardId) => {
-              api.addLike(cardId);
+            handleIpLike: (cardId, elementLikesAmount, likesState) => {
+              api
+                .handleLikeCounter(cardId, likesState)
+                .then((res) => {
+                  elementLikesAmount.textContent = res.likes.length;
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
             },
             handleCardDelete: (cardId, deleteCardOfList) => {
               popupConfirm.open();
