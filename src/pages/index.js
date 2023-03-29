@@ -5,13 +5,17 @@ import {
   popupImageSelector,
   userNameSelector,
   userActivitySelector,
+  userPhotoSelector,
   popUpCardEditorSelector,
   popUpProfileSelector,
+  popUpPhotoEditSelector,
   BUTTON_ESC_KEY,
   editorBtn,
   btnAddCard,
+  btnPhotoEditor,
   formProfile,
   formCardEditor,
+  formPhotoEditor,
 } from "../utils/constants.js";
 import FormValidator from "../components/FormValidator.js";
 import Section from "../components/Section.js";
@@ -60,9 +64,8 @@ const initialCardsList = new Section(
           popupConfirm.setEventListeners(() => {
             api
               .deleteCard(cardId)
-              .then((res) => {
+              .then(() => {
                 deleteCardOfList();
-                console.log(res);
               })
               .catch((err) => {
                 console.log(err);
@@ -81,10 +84,15 @@ const formCardEditorValidator = new FormValidator(
   setValidation,
   formCardEditor
 );
+const formPhotoEditValidator = new FormValidator(
+  setValidation,
+  formPhotoEditor
+);
 
 const user = new UserInfo({
   userNameSelector,
   userActivitySelector,
+  userPhotoSelector,
 });
 
 const popupImage = new PopupWithImage(popupImageSelector, BUTTON_ESC_KEY);
@@ -114,9 +122,8 @@ const popUpCardEditor = new PopupWithForm(
               popupConfirm.setEventListeners(() => {
                 api
                   .deleteCard(cardId)
-                  .then((res) => {
+                  .then(() => {
                     deleteCardOfList();
-                    console.log(res);
                   })
                   .catch((err) => {
                     console.log(err);
@@ -143,13 +150,35 @@ const popUpProfile = new PopupWithForm(
     handleFormSubmit: (item) => {
       api
         .setUserInfo(item)
-        .then(({ name, about }) => {
-          user.setUserInfo({ username: name, activity: about });
+        .then(({ name, about, _id }) => {
+          user.setUserInfo({ username: name, activity: about, userId: _id });
         })
         .catch((err) => {
           console.log(err);
+        })
+        .finally(() => {
+          popUpProfile.close();
         });
-      popUpProfile.close();
+    },
+  },
+  BUTTON_ESC_KEY
+);
+
+const popUpPhotoEditor = new PopupWithForm(
+  {
+    popupSelector: popUpPhotoEditSelector,
+    handleFormSubmit: ({ link }) => {
+      api
+        .setUserPhoto(link)
+        .then(({ avatar }) => {
+          user.setUserPhoto(avatar);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          popUpPhotoEditor.close();
+        });
     },
   },
   BUTTON_ESC_KEY
@@ -160,7 +189,6 @@ const popUpProfile = new PopupWithForm(
 api
   .getInitialCards()
   .then((data) => {
-    console.log(data);
     initialCardsList.renderItems(data);
   })
   .catch((err) => {
@@ -169,13 +197,13 @@ api
 
 api
   .getUserInfo()
-  .then((data) => {
-    console.log(data);
+  .then(({ name, about, _id, avatar }) => {
     user.setUserInfo({
-      username: data.name,
-      activity: data.about,
-      userId: data._id,
+      username: name,
+      activity: about,
+      userId: _id,
     });
+    user.setUserPhoto(avatar);
   })
   .catch((err) => {
     console.log(err);
@@ -184,9 +212,11 @@ api
 //////////////////////////////////////////////
 formProfileValidator.enableValidation();
 formCardEditorValidator.enableValidation();
+formPhotoEditValidator.enableValidation();
 popupImage.setEventListeners();
 popUpCardEditor.setEventListeners();
 popUpProfile.setEventListeners();
+popUpPhotoEditor.setEventListeners();
 
 editorBtn.addEventListener("click", () => {
   const userInfo = user.getUserInfo();
@@ -197,4 +227,8 @@ editorBtn.addEventListener("click", () => {
 btnAddCard.addEventListener("click", () => {
   formCardEditorValidator.resetErrors();
   popUpCardEditor.open();
+});
+btnPhotoEditor.addEventListener("click", () => {
+  formPhotoEditValidator.enableValidation();
+  popUpPhotoEditor.open();
 });

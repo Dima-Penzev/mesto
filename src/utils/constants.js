@@ -37,13 +37,17 @@ const containerSelector = ".cards-container";
 const popupImageSelector = ".popup_type_image";
 const userNameSelector = ".user__name";
 const userActivitySelector = ".user__activity";
+const userPhotoSelector = ".user__photo";
 const popUpCardEditorSelector = ".popup_type_card-editor";
 const popUpProfileSelector = ".popup_type_profile";
+const popUpPhotoEditSelector = ".popup_type_photo-editor";
 const BUTTON_ESC_KEY = "Escape";
 const editorBtn = document.querySelector(".user__edit");
 const btnAddCard = document.querySelector(".user__add-card");
+const btnPhotoEditor = document.querySelector(".user__photo-edit");
 const formProfile = document.forms["profile-data"];
 const formCardEditor = document.forms["card-data"];
+const formPhotoEditor = document.forms["photo-data"];
 
 export {
   initialCards,
@@ -52,11 +56,15 @@ export {
   popupImageSelector,
   userNameSelector,
   userActivitySelector,
+  userPhotoSelector,
   popUpCardEditorSelector,
   popUpProfileSelector,
+  popUpPhotoEditSelector,
   BUTTON_ESC_KEY,
   editorBtn,
   btnAddCard,
+  btnPhotoEditor,
   formProfile,
   formCardEditor,
+  formPhotoEditor,
 };

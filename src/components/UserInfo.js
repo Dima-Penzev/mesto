@@ -1,7 +1,8 @@
 export default class UserInfo {
-  constructor({ userNameSelector, userActivitySelector }) {
+  constructor({ userNameSelector, userActivitySelector, userPhotoSelector }) {
     this._name = document.querySelector(userNameSelector);
     this._activity = document.querySelector(userActivitySelector);
+    this._userPhoto = document.querySelector(userPhotoSelector);
   }
 
   getUserInfo() {
@@ -12,9 +13,13 @@ export default class UserInfo {
     return this._userInfo;
   }
 
-  setUserInfo(item) {
-    this._name.textContent = item.username;
-    this._activity.textContent = item.activity;
-    this._name.setAttribute("user_id", item.userId);
+  setUserInfo({ username, activity, userId }) {
+    this._name.textContent = username;
+    this._activity.textContent = activity;
+    this._name.setAttribute("user_id", userId);
+  }
+
+  setUserPhoto(link) {
+    this._userPhoto.src = link;
   }
 }
