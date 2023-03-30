@@ -9,6 +9,7 @@ import {
   popUpCardEditorSelector,
   popUpProfileSelector,
   popUpPhotoEditSelector,
+  popUpConfirmationSelector,
   BUTTON_ESC_KEY,
   editorBtn,
   btnAddCard,
@@ -26,8 +27,6 @@ import UserInfo from "../components/UserInfo.js";
 import Api from "../components/Api";
 import createCard from "../utils/utils.js";
 
-//////////////////////////////////////////////////////////////////////
-
 const api = new Api({
   baseUrl: "https://mesto.nomoreparties.co/v1/cohort-63",
   headers: {
@@ -37,11 +36,9 @@ const api = new Api({
 });
 
 const popupConfirm = new PopupWithConfirmation(
-  { popupSelector: ".popup_type_confirm" },
+  { popupSelector: popUpConfirmationSelector },
   BUTTON_ESC_KEY
 );
-
-////////////////////////////////////////////////////////////////////////////
 
 const initialCardsList = new Section(
   {
@@ -52,8 +49,8 @@ const initialCardsList = new Section(
         handleIpLike: (cardId, elementLikesAmount, likesState) => {
           api
             .handleLikeCounter(cardId, likesState)
-            .then((res) => {
-              elementLikesAmount.textContent = res.likes.length;
+            .then(({ likes }) => {
+              elementLikesAmount.textContent = likes.length;
             })
             .catch((err) => {
               console.log(err);
@@ -101,6 +98,7 @@ const popUpCardEditor = new PopupWithForm(
   {
     popupSelector: popUpCardEditorSelector,
     handleFormSubmit: (item) => {
+      popUpCardEditor.renderLoader(true);
       api
         .addNewCard(item)
         .then((res) => {
@@ -137,6 +135,7 @@ const popUpCardEditor = new PopupWithForm(
           console.log(err);
         })
         .finally(() => {
+          popUpCardEditor.renderLoader(false);
           popUpCardEditor.close();
         });
     },
@@ -148,6 +147,7 @@ const popUpProfile = new PopupWithForm(
   {
     popupSelector: popUpProfileSelector,
     handleFormSubmit: (item) => {
+      popUpProfile.renderLoader(true);
       api
         .setUserInfo(item)
         .then(({ name, about, _id }) => {
@@ -157,6 +157,7 @@ const popUpProfile = new PopupWithForm(
           console.log(err);
         })
         .finally(() => {
+          popUpProfile.renderLoader(false);
           popUpProfile.close();
         });
     },
@@ -168,6 +169,7 @@ const popUpPhotoEditor = new PopupWithForm(
   {
     popupSelector: popUpPhotoEditSelector,
     handleFormSubmit: ({ link }) => {
+      popUpPhotoEditor.renderLoader(true);
       api
         .setUserPhoto(link)
         .then(({ avatar }) => {
@@ -177,23 +179,13 @@ const popUpPhotoEditor = new PopupWithForm(
           console.log(err);
         })
         .finally(() => {
+          popUpPhotoEditor.renderLoader(false);
           popUpPhotoEditor.close();
         });
     },
   },
   BUTTON_ESC_KEY
 );
-
-//////////////////////////////////////////////
-
-api
-  .getInitialCards()
-  .then((data) => {
-    initialCardsList.renderItems(data);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
 
 api
   .getUserInfo()
@@ -209,7 +201,15 @@ api
     console.log(err);
   });
 
-//////////////////////////////////////////////
+api
+  .getInitialCards()
+  .then((data) => {
+    initialCardsList.renderItems(data);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
 formProfileValidator.enableValidation();
 formCardEditorValidator.enableValidation();
 formPhotoEditValidator.enableValidation();
