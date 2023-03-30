@@ -4,7 +4,7 @@ export default class Card {
     templateSelector,
     userIdInBase,
     handleCardClick,
-    handleIpLike,
+    handleCardLike,
     handleCardDelete
   ) {
     this._link = data.link;
@@ -15,7 +15,7 @@ export default class Card {
     this._templateSelector = templateSelector;
     this._userIdInBase = userIdInBase;
     this._handleCardClick = handleCardClick;
-    this._handleIpLike = handleIpLike;
+    this._handleCardLike = handleCardLike;
     this._handleCardDelete = handleCardDelete;
   }
 
@@ -36,8 +36,8 @@ export default class Card {
       this._element.querySelector(".card__like-amount");
     this._buttonLike = this._element.querySelector(".card__like-btn");
 
-    this._element.setAttribute("card_id", this._cardId);
-    this._element.setAttribute("user_id", this._userId);
+    this._element.setAttribute("cardId", this._cardId);
+    this._element.setAttribute("userId", this._userId);
     this._cardImage.src = this._link;
     this._cardImage.alt = this._text;
     this._elementLikesAmount.textContent = this._likes.length;
@@ -49,7 +49,7 @@ export default class Card {
       }
     });
 
-    if (this._userIdInBase === this._element.getAttribute("user_id")) {
+    if (this._userIdInBase === this._element.getAttribute("userId")) {
       this._buttonDeleteCard.classList.add("card__delete_visible");
     }
     this._setEventListeners();
@@ -60,9 +60,9 @@ export default class Card {
   _setEventListeners() {
     this._buttonLike.addEventListener("click", () => {
       if (this._buttonLike.classList.contains("card__like-btn_active")) {
-        this._handleIpLike(this._cardId, this._elementLikesAmount, true);
+        this._handleCardLike(this._cardId, this.updateLikes.bind(this), true);
       } else {
-        this._handleIpLike(this._cardId, this._elementLikesAmount, false);
+        this._handleCardLike(this._cardId, this.updateLikes.bind(this), false);
       }
       this._handleLikeBtn();
     });
@@ -72,9 +72,9 @@ export default class Card {
     });
 
     this._buttonDeleteCard.addEventListener("click", () => {
-      if (this._userIdInBase === this._element.getAttribute("user_id")) {
+      if (this._userIdInBase === this._element.getAttribute("userId")) {
         this._handleCardDelete(
-          this._element.getAttribute("card_id"),
+          this._element.getAttribute("cardId"),
           this._deleteCard.bind(this)
         );
       }
@@ -87,5 +87,9 @@ export default class Card {
 
   _deleteCard() {
     this._element.remove();
+  }
+
+  updateLikes(likesAmount) {
+    this._elementLikesAmount.textContent = likesAmount;
   }
 }

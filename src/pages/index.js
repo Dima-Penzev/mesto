@@ -1,6 +1,6 @@
 import "./index.css";
 import {
-  setValidation,
+  validationConfig,
   containerSelector,
   popupImageSelector,
   userNameSelector,
@@ -40,17 +40,17 @@ const popupConfirm = new PopupWithConfirmation(
   BUTTON_ESC_KEY
 );
 
-const initialCardsList = new Section(
+const cardsSection = new Section(
   {
     renderer: (item) => {
       const cardElement = createCard(item, {
-        userIdInBase: user.getUserInfo().user_id,
+        userIdInBase: user.getUserInfo().userId,
         handleCardClick: popupImage.open.bind(popupImage),
-        handleIpLike: (cardId, elementLikesAmount, likesState) => {
+        handleCardLike: (cardId, updateLikes, likesState) => {
           api
             .handleLikeCounter(cardId, likesState)
             .then(({ likes }) => {
-              elementLikesAmount.textContent = likes.length;
+              updateLikes(likes.length);
             })
             .catch((err) => {
               console.log(err);
@@ -70,19 +70,19 @@ const initialCardsList = new Section(
           });
         },
       });
-      initialCardsList.addItem(cardElement);
+      cardsSection.addItem(cardElement);
     },
   },
   containerSelector
 );
 
-const formProfileValidator = new FormValidator(setValidation, formProfile);
+const formProfileValidator = new FormValidator(validationConfig, formProfile);
 const formCardEditorValidator = new FormValidator(
-  setValidation,
+  validationConfig,
   formCardEditor
 );
 const formPhotoEditValidator = new FormValidator(
-  setValidation,
+  validationConfig,
   formPhotoEditor
 );
 
@@ -98,18 +98,18 @@ const popUpCardEditor = new PopupWithForm(
   {
     popupSelector: popUpCardEditorSelector,
     handleFormSubmit: (item) => {
-      popUpCardEditor.renderLoader(true);
+      popUpCardEditor.renderLoader("Сохранение...");
       api
         .addNewCard(item)
         .then((res) => {
           const newCardElement = createCard(res, {
-            userIdInBase: user.getUserInfo().user_id,
+            userIdInBase: user.getUserInfo().userId,
             handleCardClick: popupImage.open.bind(popupImage),
-            handleIpLike: (cardId, elementLikesAmount, likesState) => {
+            handleCardLike: (cardId, updateLikes, likesState) => {
               api
                 .handleLikeCounter(cardId, likesState)
-                .then((res) => {
-                  elementLikesAmount.textContent = res.likes.length;
+                .then(({ likes }) => {
+                  updateLikes(likes.length);
                 })
                 .catch((err) => {
                   console.log(err);
@@ -129,14 +129,14 @@ const popUpCardEditor = new PopupWithForm(
               });
             },
           });
-          initialCardsList.addItem(newCardElement);
+          cardsSection.addItem(newCardElement);
+          popUpCardEditor.close();
         })
         .catch((err) => {
           console.log(err);
         })
         .finally(() => {
-          popUpCardEditor.renderLoader(false);
-          popUpCardEditor.close();
+          popUpCardEditor.renderLoader("Создать");
         });
     },
   },
@@ -147,18 +147,18 @@ const popUpProfile = new PopupWithForm(
   {
     popupSelector: popUpProfileSelector,
     handleFormSubmit: (item) => {
-      popUpProfile.renderLoader(true);
+      popUpProfile.renderLoader("Сохранение...");
       api
         .setUserInfo(item)
         .then(({ name, about, _id }) => {
           user.setUserInfo({ username: name, activity: about, userId: _id });
+          popUpProfile.close();
         })
         .catch((err) => {
           console.log(err);
         })
         .finally(() => {
-          popUpProfile.renderLoader(false);
-          popUpProfile.close();
+          popUpProfile.renderLoader("Сохранить");
         });
     },
   },
@@ -169,18 +169,18 @@ const popUpPhotoEditor = new PopupWithForm(
   {
     popupSelector: popUpPhotoEditSelector,
     handleFormSubmit: ({ link }) => {
-      popUpPhotoEditor.renderLoader(true);
+      popUpPhotoEditor.renderLoader("Сохранение...");
       api
         .setUserPhoto(link)
         .then(({ avatar }) => {
           user.setUserPhoto(avatar);
+          popUpPhotoEditor.close();
         })
         .catch((err) => {
           console.log(err);
         })
         .finally(() => {
-          popUpPhotoEditor.renderLoader(false);
-          popUpPhotoEditor.close();
+          popUpPhotoEditor.renderLoader("Сохранить");
         });
     },
   },
@@ -194,8 +194,9 @@ api
       username: name,
       activity: about,
       userId: _id,
+      avatar,
     });
-    user.setUserPhoto(avatar);
+    // user.setUserPhoto(avatar);
   })
   .catch((err) => {
     console.log(err);
@@ -204,7 +205,7 @@ api
 api
   .getInitialCards()
   .then((data) => {
-    initialCardsList.renderItems(data);
+    cardsSection.renderItems(data);
   })
   .catch((err) => {
     console.log(err);
@@ -229,6 +230,6 @@ btnAddCard.addEventListener("click", () => {
   popUpCardEditor.open();
 });
 btnPhotoEditor.addEventListener("click", () => {
-  formPhotoEditValidator.enableValidation();
+  formPhotoEditValidator.resetErrors();
   popUpPhotoEditor.open();
 });

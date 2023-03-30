@@ -1,4 +1,4 @@
-const setValidation = {
+const validationConfig = {
   formSelector: ".popup__form",
   inputSelector: ".popup__input",
   submitButtonSelector: ".popup__button",
@@ -24,7 +24,7 @@ const formCardEditor = document.forms["card-data"];
 const formPhotoEditor = document.forms["photo-data"];
 
 export {
-  setValidation,
+  validationConfig,
   containerSelector,
   popupImageSelector,
   userNameSelector,

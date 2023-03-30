@@ -9,14 +9,16 @@ export default class UserInfo {
     this._userInfo = {};
     this._userInfo["username"] = this._name.textContent;
     this._userInfo["activity"] = this._activity.textContent;
-    this._userInfo["user_id"] = this._name.getAttribute("user_id");
+    this._userInfo["userId"] = this._userId;
+    this._userInfo["avatar"] = this._userPhoto.src;
     return this._userInfo;
   }
 
-  setUserInfo({ username, activity, userId }) {
+  setUserInfo({ username, activity, userId, avatar }) {
     this._name.textContent = username;
     this._activity.textContent = activity;
-    this._name.setAttribute("user_id", userId);
+    this._userId = userId;
+    this._userPhoto.src = avatar;
   }
 
   setUserPhoto(link) {

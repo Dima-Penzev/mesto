@@ -6,8 +6,7 @@ export default class PopupWithForm extends Popup {
     this._hadleFormSubmit = handleFormSubmit;
     this._popupForm = this._popup.querySelector(".popup__form");
     this._inputList = this._popup.querySelectorAll(".popup__input");
-    this._btnLabelText = this._popup.querySelector(".popup__button-label");
-    this._btnProcessText = this._popup.querySelector(".popup__button-process");
+    this._popupButton = this._popup.querySelector(".popup__button");
   }
 
   _getInputValues() {
@@ -33,14 +32,8 @@ export default class PopupWithForm extends Popup {
     });
   }
 
-  renderLoader(isLoading) {
-    if (isLoading) {
-      this._btnLabelText.classList.add("popup__button-text-ishidden");
-      this._btnProcessText.classList.remove("popup__button-text-ishidden");
-    } else {
-      this._btnLabelText.classList.remove("popup__button-text-ishidden");
-      this._btnProcessText.classList.add("popup__button-text-ishidden");
-    }
+  renderLoader(buttonText) {
+    this._popupButton.textContent = buttonText;
   }
 
   close() {
