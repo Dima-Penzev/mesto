@@ -6,16 +6,15 @@ export default class PopupWithConfirmation extends Popup {
     this._buttonConfirm = this._popup.querySelector(".popup__button");
   }
 
-  setCallback(submitCb) {
-    this._handleSubmit = submitCb;
+  setCallback(submitDeletedCard) {
+    this._handleSubmit = submitDeletedCard;
   }
 
-  setEventListeners(deleteCard) {
+  setEventListeners() {
     super.setEventListeners();
     this._buttonConfirm.addEventListener("click", (evt) => {
       evt.preventDefault();
-      deleteCard();
-      // this._handleSubmit();
+      this._handleSubmit();
     });
   }
 }

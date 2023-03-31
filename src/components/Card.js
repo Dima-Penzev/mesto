@@ -2,10 +2,7 @@ export default class Card {
   constructor(
     data,
     templateSelector,
-    currentUserId,
-    handleCardClick,
-    handleCardLike,
-    handleCardDelete
+    { currentUserId, handleCardClick, handleCardLike, handleCardDelete }
   ) {
     this._link = data.link;
     this._text = data.name;

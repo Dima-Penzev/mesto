@@ -25,7 +25,44 @@ import PopupWithForm from "../components/PopupWithForm.js";
 import PopupWithConfirmation from "../components/PopupWithConfirmation";
 import UserInfo from "../components/UserInfo.js";
 import Api from "../components/Api";
-import createCard from "../utils/utils.js";
+import Card from "../components/Card.js";
+
+const createCard = (item) => {
+  const card = new Card(item, "#card", {
+    currentUserId: user.getUserInfo().userId,
+    handleCardClick: popupImage.open.bind(popupImage),
+    handleCardLike: (cardId, updateLikes, toggleLike, isLiked) => {
+      api
+        .toggleLikeState(cardId, isLiked)
+        .then(({ likes }) => {
+          updateLikes(likes.length);
+          toggleLike();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    handleCardDelete: (cardId, deleteCardOfList) => {
+      const submitDeletedCard = () => {
+        api
+          .deleteCard(cardId)
+          .then(() => {
+            deleteCardOfList();
+            popupConfirm.close();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      };
+      popupConfirm.open();
+      popupConfirm.setCallback(submitDeletedCard);
+      popupConfirm.setEventListeners();
+    },
+  });
+  const cardElement = card.generateCard();
+
+  return cardElement;
+};
 
 const api = new Api({
   baseUrl: "https://mesto.nomoreparties.co/v1/cohort-63",
@@ -43,35 +80,7 @@ const popupConfirm = new PopupWithConfirmation(
 const cardsSection = new Section(
   {
     renderer: (item) => {
-      const cardElement = createCard(item, {
-        currentUserId: user.getUserInfo().userId,
-        handleCardClick: popupImage.open.bind(popupImage),
-        handleCardLike: (cardId, updateLikes, toggleLike, isLiked) => {
-          api
-            .toggleLikeState(cardId, isLiked)
-            .then(({ likes }) => {
-              updateLikes(likes.length);
-              toggleLike();
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        },
-        handleCardDelete: (cardId, deleteCardOfList) => {
-          popupConfirm.open();
-          popupConfirm.setEventListeners(() => {
-            api
-              .deleteCard(cardId)
-              .then(() => {
-                deleteCardOfList();
-                popupConfirm.close();
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          });
-        },
-      });
+      const cardElement = createCard(item);
       cardsSection.addItem(cardElement);
     },
   },
@@ -104,35 +113,7 @@ const popUpCardEditor = new PopupWithForm(
       api
         .addNewCard(item)
         .then((res) => {
-          const newCardElement = createCard(res, {
-            currentUserId: user.getUserInfo().userId,
-            handleCardClick: popupImage.open.bind(popupImage),
-            handleCardLike: (cardId, updateLikes, toggleLike, isLiked) => {
-              api
-                .toggleLikeState(cardId, isLiked)
-                .then(({ likes }) => {
-                  updateLikes(likes.length);
-                  toggleLike();
-                })
-                .catch((err) => {
-                  console.log(err);
-                });
-            },
-            handleCardDelete: (cardId, deleteCardOfList) => {
-              popupConfirm.open();
-              popupConfirm.setEventListeners(() => {
-                api
-                  .deleteCard(cardId)
-                  .then(() => {
-                    deleteCardOfList();
-                    popupConfirm.close();
-                  })
-                  .catch((err) => {
-                    console.log(err);
-                  });
-              });
-            },
-          });
+          const newCardElement = createCard(res);
           cardsSection.addItem(newCardElement);
           popUpCardEditor.close();
         })
@@ -196,24 +177,15 @@ const popUpPhotoEditor = new PopupWithForm(
   BUTTON_ESC_KEY
 );
 
-api
-  .getUserInfo()
-  .then(({ name, about, _id, avatar }) => {
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+  .then(([{ name, about, _id, avatar }, cards]) => {
     user.setUserInfo({
       username: name,
       activity: about,
       userId: _id,
       avatar,
     });
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
-api
-  .getInitialCards()
-  .then((data) => {
-    cardsSection.renderItems(data);
+    cardsSection.renderItems(cards);
   })
   .catch((err) => {
     console.log(err);

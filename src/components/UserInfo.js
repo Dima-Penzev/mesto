@@ -18,7 +18,7 @@ export default class UserInfo {
     this._name.textContent = username;
     this._activity.textContent = activity;
     this._userId = userId;
-    this._userPhoto.src = avatar;
+    this.setUserPhoto(avatar);
   }
 
   setUserPhoto(link) {
