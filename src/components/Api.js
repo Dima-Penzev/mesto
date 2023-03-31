@@ -4,15 +4,17 @@ export default class Api {
     this._headers = headers;
   }
 
+  _getResponseData(res) {
+    if (res.ok) {
+      return res.json();
+    } else {
+      return Promise.reject(`Ошибка: ${res.status}`);
+    }
+  }
+
   getInitialCards() {
     return fetch(`${this._baseUrl}/cards`, { headers: this._headers }).then(
-      (res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          return Promise.reject(`Ошибка: ${res.status}`);
-        }
-      }
+      (res) => this._getResponseData(res)
     );
   }
 
@@ -24,13 +26,7 @@ export default class Api {
         name,
         link,
       }),
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        return Promise.reject(`Ошибка: ${res.status}`);
-      }
-    });
+    }).then((res) => this._getResponseData(res));
   }
 
   deleteCard(cardId) {
@@ -38,23 +34,13 @@ export default class Api {
       method: "DELETE",
       headers: this._headers,
     }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        return Promise.reject(`Ошибка: ${res.status}`);
-      }
+      this._getResponseData(res);
     });
   }
 
   getUserInfo() {
     return fetch(`${this._baseUrl}/users/me`, { headers: this._headers }).then(
-      (res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          return Promise.reject(`Ошибка: ${res.status}`);
-        }
-      }
+      (res) => this._getResponseData(res)
     );
   }
 
@@ -66,13 +52,7 @@ export default class Api {
         name: username,
         about: activity,
       }),
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        return Promise.reject(`Ошибка: ${res.status}`);
-      }
-    });
+    }).then((res) => this._getResponseData(res));
   }
 
   setUserPhoto(link) {
@@ -82,27 +62,15 @@ export default class Api {
       body: JSON.stringify({
         avatar: link,
       }),
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        return Promise.reject(`Ошибка: ${res.status}`);
-      }
-    });
+    }).then((res) => this._getResponseData(res));
   }
 
-  handleLikeCounter(cardId, likesState) {
-    const method = likesState ? "DELETE" : "PUT";
+  toggleLikeState(cardId, isLiked) {
+    const method = isLiked ? "DELETE" : "PUT";
 
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method,
       headers: this._headers,
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        return Promise.reject(`Ошибка: ${res.status}`);
-      }
-    });
+    }).then((res) => this._getResponseData(res));
   }
 }

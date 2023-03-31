@@ -44,13 +44,14 @@ const cardsSection = new Section(
   {
     renderer: (item) => {
       const cardElement = createCard(item, {
-        userIdInBase: user.getUserInfo().userId,
+        currentUserId: user.getUserInfo().userId,
         handleCardClick: popupImage.open.bind(popupImage),
-        handleCardLike: (cardId, updateLikes, likesState) => {
+        handleCardLike: (cardId, updateLikes, toggleLike, isLiked) => {
           api
-            .handleLikeCounter(cardId, likesState)
+            .toggleLikeState(cardId, isLiked)
             .then(({ likes }) => {
               updateLikes(likes.length);
+              toggleLike();
             })
             .catch((err) => {
               console.log(err);
@@ -63,6 +64,7 @@ const cardsSection = new Section(
               .deleteCard(cardId)
               .then(() => {
                 deleteCardOfList();
+                popupConfirm.close();
               })
               .catch((err) => {
                 console.log(err);
@@ -103,13 +105,14 @@ const popUpCardEditor = new PopupWithForm(
         .addNewCard(item)
         .then((res) => {
           const newCardElement = createCard(res, {
-            userIdInBase: user.getUserInfo().userId,
+            currentUserId: user.getUserInfo().userId,
             handleCardClick: popupImage.open.bind(popupImage),
-            handleCardLike: (cardId, updateLikes, likesState) => {
+            handleCardLike: (cardId, updateLikes, toggleLike, isLiked) => {
               api
-                .handleLikeCounter(cardId, likesState)
+                .toggleLikeState(cardId, isLiked)
                 .then(({ likes }) => {
                   updateLikes(likes.length);
+                  toggleLike();
                 })
                 .catch((err) => {
                   console.log(err);
@@ -122,6 +125,7 @@ const popUpCardEditor = new PopupWithForm(
                   .deleteCard(cardId)
                   .then(() => {
                     deleteCardOfList();
+                    popupConfirm.close();
                   })
                   .catch((err) => {
                     console.log(err);
@@ -150,8 +154,13 @@ const popUpProfile = new PopupWithForm(
       popUpProfile.renderLoader("Сохранение...");
       api
         .setUserInfo(item)
-        .then(({ name, about, _id }) => {
-          user.setUserInfo({ username: name, activity: about, userId: _id });
+        .then(({ name, about, _id, avatar }) => {
+          user.setUserInfo({
+            username: name,
+            activity: about,
+            userId: _id,
+            avatar,
+          });
           popUpProfile.close();
         })
         .catch((err) => {
@@ -196,7 +205,6 @@ api
       userId: _id,
       avatar,
     });
-    // user.setUserPhoto(avatar);
   })
   .catch((err) => {
     console.log(err);
