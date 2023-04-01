@@ -6,11 +6,13 @@ export default class UserInfo {
   }
 
   getUserInfo() {
-    this._userInfo = {};
-    this._userInfo["username"] = this._name.textContent;
-    this._userInfo["activity"] = this._activity.textContent;
-    this._userInfo["userId"] = this._userId;
-    this._userInfo["avatar"] = this._userPhoto.src;
+    this._userInfo = {
+      username: this._name.textContent,
+      activity: this._activity.textContent,
+      userId: this._userId,
+      avatar: this._userPhoto.src,
+    };
+
     return this._userInfo;
   }
 

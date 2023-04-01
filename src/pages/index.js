@@ -31,23 +31,23 @@ const createCard = (item) => {
   const card = new Card(item, "#card", {
     currentUserId: user.getUserInfo().userId,
     handleCardClick: popupImage.open.bind(popupImage),
-    handleCardLike: (cardId, updateLikes, toggleLike, isLiked) => {
+    handleCardLike: (cardId, isLiked) => {
       api
         .toggleLikeState(cardId, isLiked)
         .then(({ likes }) => {
-          updateLikes(likes.length);
-          toggleLike();
+          card.updateLikes(likes.length);
+          card.toggleLike();
         })
         .catch((err) => {
           console.log(err);
         });
     },
-    handleCardDelete: (cardId, deleteCardOfList) => {
+    handleCardDelete: (cardId) => {
       const submitDeletedCard = () => {
         api
           .deleteCard(cardId)
           .then(() => {
-            deleteCardOfList();
+            card.deleteCard();
             popupConfirm.close();
           })
           .catch((err) => {
@@ -56,7 +56,6 @@ const createCard = (item) => {
       };
       popupConfirm.open();
       popupConfirm.setCallback(submitDeletedCard);
-      popupConfirm.setEventListeners();
     },
   });
   const cardElement = card.generateCard();
@@ -109,7 +108,7 @@ const popUpCardEditor = new PopupWithForm(
   {
     popupSelector: popUpCardEditorSelector,
     handleFormSubmit: (item) => {
-      popUpCardEditor.renderLoader("Сохранение...");
+      popUpCardEditor.submitButtonText("Сохранение...");
       api
         .addNewCard(item)
         .then((res) => {
@@ -121,7 +120,7 @@ const popUpCardEditor = new PopupWithForm(
           console.log(err);
         })
         .finally(() => {
-          popUpCardEditor.renderLoader("Создать");
+          popUpCardEditor.submitButtonText("Создать");
         });
     },
   },
@@ -132,7 +131,7 @@ const popUpProfile = new PopupWithForm(
   {
     popupSelector: popUpProfileSelector,
     handleFormSubmit: (item) => {
-      popUpProfile.renderLoader("Сохранение...");
+      popUpProfile.submitButtonText("Сохранение...");
       api
         .setUserInfo(item)
         .then(({ name, about, _id, avatar }) => {
@@ -148,7 +147,7 @@ const popUpProfile = new PopupWithForm(
           console.log(err);
         })
         .finally(() => {
-          popUpProfile.renderLoader("Сохранить");
+          popUpProfile.submitButtonText("Сохранить");
         });
     },
   },
@@ -159,7 +158,7 @@ const popUpPhotoEditor = new PopupWithForm(
   {
     popupSelector: popUpPhotoEditSelector,
     handleFormSubmit: ({ link }) => {
-      popUpPhotoEditor.renderLoader("Сохранение...");
+      popUpPhotoEditor.submitButtonText("Сохранение...");
       api
         .setUserPhoto(link)
         .then(({ avatar }) => {
@@ -170,7 +169,7 @@ const popUpPhotoEditor = new PopupWithForm(
           console.log(err);
         })
         .finally(() => {
-          popUpPhotoEditor.renderLoader("Сохранить");
+          popUpPhotoEditor.submitButtonText("Сохранить");
         });
     },
   },
@@ -198,6 +197,7 @@ popupImage.setEventListeners();
 popUpCardEditor.setEventListeners();
 popUpProfile.setEventListeners();
 popUpPhotoEditor.setEventListeners();
+popupConfirm.setEventListeners();
 
 editorBtn.addEventListener("click", () => {
   const userInfo = user.getUserInfo();

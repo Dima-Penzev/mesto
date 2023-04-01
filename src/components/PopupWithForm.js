@@ -32,7 +32,7 @@ export default class PopupWithForm extends Popup {
     });
   }
 
-  renderLoader(buttonText) {
+  submitButtonText(buttonText) {
     this._popupButton.textContent = buttonText;
   }
 
