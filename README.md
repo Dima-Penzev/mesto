@@ -20,6 +20,6 @@ This service gives its users the opportunity to upload photos of visited places.
 - REST API
 - WebPack
 
-In the future, I plan to transfer this project to React.
+In the future, I plan to transfer this project to the library for creating user interfaces "React".
 
 __Link to__ **[Mesto](https://dima-penzev.github.io/mesto/index.html)**
